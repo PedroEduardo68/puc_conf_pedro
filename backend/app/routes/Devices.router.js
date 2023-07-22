@@ -6,7 +6,7 @@
 // DELETE: /Devices/:id | deleteUser()7
 
 import {Router, request, response} from 'express'
-import {FindAllDevices, getDevicesById, createDevice} from '../controller/Devices.controll.js'
+import {FindAllDevices, getDevicesById, createDevice , updateDevice, deleteDevice } from '../controller/Devices.controll.js'
 
 const DevicesRouter = Router()
 
@@ -20,5 +20,10 @@ DevicesRouter.get('/:id', getDevicesById)
 //Create device
 DevicesRouter.post('/:id', createDevice)  
 
+//update  device
+DevicesRouter.put('/:id', updateDevice)  
+
+//delete device
+DevicesRouter.delete('/:id', deleteDevice)  
 
 export default DevicesRouter;
