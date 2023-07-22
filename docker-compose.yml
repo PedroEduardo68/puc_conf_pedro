@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+  mongodb-configsys:
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSOWORD}
+
+  mongodbongo-express:
+    depends_on:
+      - mongodb-configsys
+    image: mongo-express:latest
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSOWORD}
+      ME_CONFIG_MONGODB_URL: ${MONGODB_URI_DOCKER}
+
+networks:
+  network_mongo:
+
+volumes:
+  mongodb_data_container:
