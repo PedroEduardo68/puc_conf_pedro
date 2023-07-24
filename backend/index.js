@@ -2,6 +2,7 @@ import config from './config.js'
 import mongoose from 'mongoose';
 import express  from 'express';
 import DevicesRouter from './app/routes/Devices.router.js'
+import {downloadFile}  from './app/services/SCP/scp.js'
 
 
 const Main = async () =>{
@@ -14,7 +15,10 @@ const Main = async () =>{
     console.log(`<> Loading config envirement ${config.url_mongodb}  <>`)
 
 
-    //process to connect db    
+ 
+   /* The code `mongoose.connect(`${config.url_mongodb}`,{ useNewUrlParser: true, useUnifiedTopology:
+   true }).catch(`<> Falied connected <>`)` is establishing a connection to a MongoDB database using
+   the Mongoose library. */
     mongoose.connect(`${config.url_mongodb}`,{ useNewUrlParser: true, useUnifiedTopology: true }).catch(`<> Falied connected <>`)
     
 
@@ -28,14 +32,15 @@ const Main = async () =>{
     // await device.save();
 
 
+    await downloadFile('192.168.18.199','ubuntu','ubuntu','/home/ubuntu/teste.txt', './teste_dadsada_25.txt')
+    
 
 
 
-
-
-
-
-    //Devices routers 
+    /* The code `app.use('/api/devices/', DevicesRouter)` is setting up a middleware in the Express
+    application. It specifies that any requests with the path '/api/devices/' should be handled by the
+    `DevicesRouter` router. This means that any routes defined in the `DevicesRouter` will be accessible
+    under the '/api/devices/' path. */
     app.use('/api/devices/', DevicesRouter)
 
 
@@ -44,7 +49,6 @@ const Main = async () =>{
     app.get('/', (req, res) => {
         res.send('<h1> Hello, API is working! <h1>');
     });
-
 
 
     // Start the server

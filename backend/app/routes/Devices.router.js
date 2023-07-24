@@ -18,12 +18,13 @@ DevicesRouter.get('/', FindAllDevices)
 DevicesRouter.get('/:id', getDevicesById)  
 
 //Create device
-DevicesRouter.post('/:id', createDevice)  
+DevicesRouter.post('/', createDevice)  
 
 //update  device
 DevicesRouter.put('/:id', updateDevice)  
 
 //delete device
 DevicesRouter.delete('/:id', deleteDevice)  
+
 
 export default DevicesRouter;
