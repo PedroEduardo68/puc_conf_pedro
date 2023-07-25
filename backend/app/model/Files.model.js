@@ -1,4 +1,6 @@
 import mongoose from "mongoose"
+/* The code is defining a schema for a MongoDB collection called "Files_Model". The schema specifies
+the structure and data types of the documents that will be stored in the collection. */
 
 const FilesSchema = new mongoose.Schema({
     comment :{
