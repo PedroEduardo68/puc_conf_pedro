@@ -3,6 +3,7 @@ version: '3.1'
 services:
 
 
+  ### mongodb-server => mode produtions
   mongodb-configsys:
     container_name: mongodb-configsys
     image: mongo:latest
@@ -16,7 +17,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSOWORD}
 
       
-
+  ### Mongo Express Server configuration  -> mode development
   mongodbongo-express:
     container_name: mongodbongo-express
     depends_on:
@@ -32,11 +33,11 @@ services:
       
 
 
-
-
       
 networks:
   network_mongo:
 
 volumes:
   mongodb_data_container:
+  backend_log_container:
+  backend_files_container:
