@@ -52,38 +52,59 @@ with the values entered in the input fields. */
 
 
   return (<>
-    <h1 className="text-orange-500 m-5 font-bold text-xl text-center">Registro de Servidor </h1>
-      <main className="flex min-h-screen md:flex-col sm:flex-wrap justify-between p-10 ">
-        <div className="m-5">
+    <h1 className="text-orange-500 font-bold text-xl text-center">Registro de Servidor </h1>
+      <main className="flex flex-wrap justify-between  p-10 flex-col ">
+        <div className="">
           <form onSubmit={(e) => SumbitServer(e)} >
-            <label name="IPAddress"  > Endereço do Servidor:
-              <input required id="IPAddress" type="text" name="IPAddress" maxLength={15} className="w-full px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="127.0.0.1" />
-            </label><br/>
+              <label name="IPAddress"  > Endereço do Servidor:
+                <input required id="IPAddress" type="text" name="IPAddress" maxLength={15} className="w-full px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="127.0.0.1" />
+              </label><br/>
 
 
-            <label name="Username"> Usuario do Servidor: 
-              <input  required id="Username" type="text" name="Username" maxLength={40} className="w-full  px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"  placeholder="Usuario" />
-            </label><br/>
+              <label name="Username"> Usuario do Servidor: 
+                <input  required id="Username" type="text" name="Username" maxLength={40} className="w-full  px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"  placeholder="Usuario" />
+              </label><br/>
 
 
-            <label name="password"> Senha Servidor: 
-              <input required id="password" type="password" name="password" maxLength={40} className="w-full  px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="Senha" />
-            </label><br/>
+              <label name="password"> Senha Servidor: 
+                <input required id="password" type="password" name="password" maxLength={40} className="w-full  px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="Senha" />
+              </label><br/>
 
-            <button onSubmit className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Submeter </button>
-            <button onAbort className="bottom-2 text-white p-2 bg-red-800 m-3 rounded-md"> Limpar </button>
+              <button onSubmit className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Submeter </button>
+              <button onAbort className="bottom-2 text-white p-2 bg-red-800 m-3 rounded-md"> Limpar </button>
 
-          </form>
-
-          <div>
-          <h1 className="text-orange-500 m-5 font-bold text-sm text-center">Filtro de Pesquisa Servidor </h1>
+            </form>
           </div>
 
           <div>
-            Pedro Camera
+          <h1 className="text-orange-500 font-bold text-sm text-center">Filtro de Pesquisa Servidor </h1>
           </div>
 
-        </div>
+          <div className="flex w-screen align-middle items-center">
+            <table className="stable-auto  center bg-red-600">
+              <thead className="border-2">
+                <tr className="border-2 ">
+                  <td className="border-2">Endereço</td>
+                  <td className="border-2">User</td>
+                  <td className="border-2">Caminho</td>
+                  <td className="border-2">Ações</td>
+                </tr>
+
+
+                
+                <tr className="border-2 ">
+                  <td className="border-2">10.1.1.1</td>
+                  <td className="border-2">casa</td>
+                  <td className="border-2">/etc/apache/conf</td>
+                  <td className="border-2">Alterar Senha Remover</td>
+                </tr>
+
+
+              </thead>
+            </table>
+          </div>
+
+        
       </main>
     </>
   )
