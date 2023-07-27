@@ -61,6 +61,7 @@ export const getDevicesById = async (req,res) => {
  */
 
 export const createDevice = async (req,res) => {
+    console.log(req.body)
 
     let device = {
         ipaddress: req.body.ipaddress,
@@ -81,6 +82,14 @@ export const createDevice = async (req,res) => {
 
 
 
+/**
+ * The function updates a device's information in a database and returns the updated information.
+ * @param req - The `req` parameter is the request object that contains information about the incoming
+ * request, such as the request body, headers, and query parameters.
+ * @param res - The `res` parameter is the response object that is used to send the response back to
+ * the client. It contains methods and properties that allow you to control the response, such as
+ * setting the status code and sending JSON data.
+ */
 export const updateDevice = async (req,res) => {
 
     let device = {
@@ -90,9 +99,8 @@ export const updateDevice = async (req,res) => {
     }
 
     try{
-        const deviceNew = new Devices_Model(device)
-        const newData = await deviceNew.save();
-        res.status(200).json(newData)
+        const updateInfo =await Devices_Model.findByIdAndUpdate(documentId, device , { new: true })
+        res.status(200).json(updateInfo)
 
     }catch (err) {
         res.status(503).send({"ERROR":"contact the administrator"})
@@ -101,21 +109,27 @@ export const updateDevice = async (req,res) => {
 
 
 
+/**
+ * The function `deleteDevice` is an asynchronous function that deletes a device from the database
+ * based on the provided device ID.
+ * @param req - The `req` parameter is the request object that contains information about the HTTP
+ * request made by the client. It includes details such as the request method, headers, URL, and
+ * parameters.
+ * @param res - The 'res' parameter is the response object that is used to send the response back to
+ * the client. It contains methods and properties that allow you to set the status code, headers, and
+ * send the response body. In this code snippet, it is used to send different responses based on the
+ * outcome of
+ */
 
 export const deleteDevice = async (req,res) => {
+    let deviceId = req.params.id;
+    const deleteDevice = await Devices_Model.deleteOne({_id: deviceId})
 
-    let device = {
-        ipaddress: req.body.ipaddress,
-        password: req.body.password,
-        user: req.body.user,
+    if(deleteDevice.deletedCount > 0) {
+        res.status(200).json(deleteDevice.deletedCount)
     }
-    try{
-        const deviceNew = new Devices_Model(device)
-        const newData = await deviceNew.save();
-        res.status(200).json(newData)
-
-    }catch (err) {
-        res.status(503).send({"ERROR":"contact the administrator"})
+    else {
+        res.status(404).send({"ERROR":"Dispositivo não encontrado!"})
     }
 }
 

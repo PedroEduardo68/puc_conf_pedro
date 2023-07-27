@@ -8,46 +8,66 @@ import { convertTimestampTostringBr } from "../helper/convertTime";
 export default function page() {
   const [dataSource,setDataSource] = useState([]);
 
-  useEffect(async () => {
+
+  const updateTableDevices = async () => {
     const response = await axios.get('http://192.168.18.145:5000/api/devices/')
-      console.log(response.data)
-      setDataSource(response.data)
+    setDataSource(response.data)
+  }
+
+
+/* The `useEffect` hook is used to perform side effects in a functional component. In this case, the
+`useEffect` hook is making an asynchronous HTTP GET request to the specified URL
+(`http://192.168.18.145:5000/api/devices/`) using the `axios` library. */
+  useEffect( () => {
+    updateTableDevices()
   },[]);
 
 
 
-  const [submitInformationAcess, setSubmitInformationAcess] = useState({
-    IPAddress: "",
-    Username: "",
-    password: "",
-  });
+
+
+/**
+ * The function `removeDevices` is an asynchronous function that sends a DELETE request to a specified
+ * API endpoint to delete a device with a given ID, and logs a success message if the request is
+ * successful or an error message if it fails.
+ * @param e - The parameter `e` is an event object that is passed to the function when it is triggered
+ * by an event. It is commonly used in event handlers to access information about the event that
+ * occurred.
+ * @param id - The `id` parameter is the identifier of the device that you want to remove/delete.
+ */
+  const removeDevices = async (e,id) => {
+    e.preventDefault();
+    const response = await axios.delete(`http://192.168.18.145:5000/api/devices/${id}`)
+    
+    if(response.status === 200) {
+      updateTableDevices()
+    }else {
+      alert("Error ao Deletar")
+    }
+  }
 
 
 
-  const SumbitServer = (e) => {
+
+  const SumbitServer = async (e) => {
     e.preventDefault();
 
-/* The code `setSubmitInformationAcess({...})` is updating the state variable `submitInformationAcess`
-with the values entered in the input fields. */
-    setSubmitInformationAcess({
-      IPAddress: e.target.IPAddress.value,
-      Username: e.target.Username.value,
+    let informationSubmit = {
+      ipaddress: e.target.IPAddress.value,
+      user: e.target.Username.value,
       password: e.target.password.value,
-    })
-
-    /* The `alert()` function is used to display a pop-up message box with the specified message. In this
-    case, the message is "Cadastrado com Sucesso!" (which means "Registered Successfully!" in
-    Portuguese) followed by the values entered in the "Endereço do Servidor" (Server Address) and
-    "Usuario do Servidor" (Server Username) input fields. The values are accessed using
-    `e.target.IPAddress.value` and `e.target.Username.value` respectively. The `\n` is used to create a
-    new line in the message. */
-    alert(`Cadastrado com Sucesso! \n
-      Endereço IPs: ${e.target.IPAddress.value} 
-      Usuário: ${e.target.Username.value} `)
+    }
 
 
+    const response = await axios.post(`http://192.168.18.145:5000/api/devices/`, informationSubmit)
 
 
+    if(response.status === 200) {
+      alert(`Cadastrado com Sucesso!`)
+      updateTableDevices()
+    }else {
+      alert(`Erro ao cadastrar!`)
+    }
 
 
     /* The code `e.target.IPAddress.value = ""; e.target.Username.value = ""; e.target.password.value = "";
@@ -57,11 +77,7 @@ with the values entered in the input fields. */
     e.target.IPAddress.value = "";
     e.target.Username.value = "";
     e.target.password.value = "";
-    setSubmitInformationAcess({
-      IPAddress: "",
-      Username: "",
-      password: "",
-    })
+
 
   }
 
@@ -132,7 +148,7 @@ with the values entered in the input fields. */
                         <td className="border-b-2">
                           <button className="bg-orange-400 rounded-sm p-2 m-1">Editar</button>
                           <button className="bg-orange-400 rounded-sm p-2 m-1">Senha</button>
-                          <button className="bg-red-800 rounded-sm p-2 m-1">Remover</button>
+                          <button className="bg-red-800 rounded-sm p-2 m-1" onClick={(e) => removeDevices(e,row._id)}>Remover</button>
                         </td>
                       </tr>
                   ) 
