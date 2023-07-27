@@ -4,7 +4,8 @@
   "description": "Software to store and view of the confg files.",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "dev": "node index.js"
   },
   "author": "Pedro Eduardo Camera",
   "license": "ISC",

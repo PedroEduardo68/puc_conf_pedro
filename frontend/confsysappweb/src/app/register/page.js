@@ -3,10 +3,12 @@ import { useState } from "react"
 import { useEffect } from "react"
 import axios from 'axios'
 import { convertTimestampTostringBr } from "../helper/convertTime";
+import ModalEdit from "@/components/Modal";
 
 
 export default function page() {
   const [dataSource,setDataSource] = useState([]);
+  const [hiddenModal,sethiddenModal] = useState('hidden');
 
 
   const updateTableDevices = async () => {
@@ -82,11 +84,25 @@ export default function page() {
   }
 
 
+
+  const editDevice = (e)=>{
+    e.preventDefault();
+    
+    if (hiddenModal === 'hidden'){
+        sethiddenModal('');
+    }else{
+        sethiddenModal('hidden');
+    }
+      
+
+  }
+
+
   return (<>
     <h1 className="text-orange-500 font-bold text-xl text-center">Registro de Servidor </h1>
-      <main className="flex flex-wrap justify-between  p-5 flex-row ">
-        <div className="w-1/2 p-1">
-          <form onSubmit={(e) => SumbitServer(e)} >
+      <main className="flex flex-wrap justify-between text-center align-middle p-5 flex-row w-full">
+          <div className="w-1/2 sm:w-full p-1">
+            <form onSubmit={(e) => SumbitServer(e)} >
               <label name="IPAddress"  > Endereço do Servidor:
                 <input required id="IPAddress" type="text" name="IPAddress" maxLength={15} className="w-full px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="127.0.0.1" />
               </label><br/>
@@ -107,25 +123,25 @@ export default function page() {
             </form>
           </div>
 
-          <div className="w-1/2">
-          <form onSubmit={(e) => SumbitServer(e)} >
-              <label name="Username"> Caminho 
-                <input  required id="Username" type="text" name="Username" maxLength={40} className="w-full  px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"  placeholder="Usuario" />
-              </label><br/>
+          <div className="w-1/2 sm:w-full">
+            <form onSubmit={(e) => SumbitServer(e)} >
+                <label name="Username"> Caminho 
+                  <input  required id="Username" type="text" name="Username" maxLength={40} className="w-full  px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"  placeholder="Usuario" />
+                </label><br/>
 
-              <button onSubmit className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Submeter </button>
-              <button onAbort className="bottom-2 text-white p-2 bg-red-800 m-3 rounded-md"> Limpar </button>
-            </form>
+                <button onSubmit className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Submeter </button>
+                <button onAbort className="bottom-2 text-white p-2 bg-red-800 m-3 rounded-md"> Limpar </button>
+              </form>
           </div>
 
 
-          <div>
-          <h1 className="text-orange-500 font-bold text-sm text-center">Filtro de Pesquisa Servidor </h1>
+          <div className="w-full align-middle items-center justify-between">
+            <h1 className="text-orange-500 font-bold text-sm text-center">Filtro de Pesquisa Servidor </h1>
           </div>
 
           
-          <div className="flex w-screen align-middle items-center ">
-            <table className="stable-auto  center sm:invisible">
+          <div className="w-full align-middle items-center justify-between">
+            <table className=" m-auto sm:invisible">
               <thead className="bg-slate-500">
                 <tr className="">
                   <td className="border-4 border-orange-500">Endereço</td>
@@ -146,18 +162,49 @@ export default function page() {
                         <td className="border-r-2 border-b-2 p-2">{convertTimestampTostringBr(row.createdDate)}</td>
                         <td className="border-r-2 border-b-2 p-2">/etc/apache/conf</td>
                         <td className="border-b-2">
-                          <button className="bg-orange-400 rounded-sm p-2 m-1">Editar</button>
-                          <button className="bg-orange-400 rounded-sm p-2 m-1">Senha</button>
+                          <button className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => editDevice(e,row._id)}>Editar</button>
+                          <button className="bg-orange-400 rounded-sm p-2 m-1"> Caminho </button>
                           <button className="bg-red-800 rounded-sm p-2 m-1" onClick={(e) => removeDevices(e,row._id)}>Remover</button>
                         </td>
                       </tr>
                   ) 
               }):  <tr><td> Sem dados!  Constate o Administrador</td></tr>}
-
+              
               </tbody>         
             </table>
           </div>
 
+          {dataSource.length !== 0 ?
+                  dataSource.map((row)=>{
+                    return (
+
+
+                    <div class="max-w-sm rounded-md  border-orange-400 border-2 overflow-hidden shadow-lg md:invisible lg:invisible xl:invisible 2xl:invisible">
+                    <div class="px-6 py-4">
+                    
+                      
+                      <p class="text-white ">
+                      Endereço IP: <span> {row.ipaddress} </span> <br />
+                      Usuario: <span> {row.user} </span> <br />
+                      Data de Criação: <span>{convertTimestampTostringBr(row.createdDate)}</span> <br /> 
+                      Caminho: <span>/etc/apache/conf </span><br /> 
+                      </p><br /> 
+                      <button className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => editDevice(e,row._id)}>Editar</button>
+                      <button className="bg-orange-400 rounded-sm p-2 m-1"> Caminho </button>
+                      <button className="bg-red-800 rounded-sm p-2 m-1" onClick={(e) => removeDevices(e,row._id)}>Remover</button>
+                    </div>
+                  </div>
+                  ) 
+              }):  <>Sem dados!  Constate o Administrador</>}
+          
+
+
+
+
+
+          
+          
+          <ModalEdit hiddenModal={hiddenModal} editDevice={editDevice}/>
 
       </main>
     </>
