@@ -144,6 +144,7 @@ export default function page() {
             <table className=" m-auto">
               <thead className="bg-slate-500">
                 <tr className="">
+                  <td className="border-4 border-orange-500">Nome</td>
                   <td className="border-4 border-orange-500">Endereço</td>
                   <td className="border-4 border-orange-500">Usuario</td>
                   <td className="border-4 border-orange-500">Caminho</td>
@@ -157,6 +158,7 @@ export default function page() {
                   dataSource.map((row)=>{
                     return (
                       <tr className="" id={row._id}>
+                        <td className="border-r-2 border-b-2 p-2">{row.nameserver}</td>
                         <td className="border-r-2 border-b-2 p-2">{row.ipaddress}</td>
                         <td className="border-r-2 border-b-2 p-2">{row.user}</td>
                         <td className="border-r-2 border-b-2 p-2">{convertTimestampTostringBr(row.createdDate)}</td>
@@ -182,6 +184,7 @@ export default function page() {
                     
                       
                       <p class="text-white ">
+                      Nome do servidor: <span> {row.nameserver} </span> <br />
                       Endereço IP: <span> {row.ipaddress} </span> <br />
                       Usuario: <span> {row.user} </span> <br />
                       Data de Criação: <span>{convertTimestampTostringBr(row.createdDate)}</span> <br /> 
