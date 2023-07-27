@@ -58,6 +58,7 @@ export default function page() {
       ipaddress: e.target.IPAddress.value,
       user: e.target.Username.value,
       password: e.target.password.value,
+      nameserver:e.target.nameserver.value,
     }
 
 
@@ -79,6 +80,8 @@ export default function page() {
     e.target.IPAddress.value = "";
     e.target.Username.value = "";
     e.target.password.value = "";
+    e.target.nameserver.value = "";
+    
 
 
   }
@@ -103,6 +106,10 @@ export default function page() {
       <main className="flex flex-wrap justify-between text-center align-middle p-5 flex-row w-full">
           <div className="w-1/2 sm:w-full p-1">
             <form onSubmit={(e) => SumbitServer(e)} >
+              <label name="nameserver"  > Name Servidor:
+                <input required id="nameserver" type="text" name="nameserver" maxLength={45} className="w-full px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="Nome do servidor" />
+              </label><br/>
+
               <label name="IPAddress"  > Endereço do Servidor:
                 <input required id="IPAddress" type="text" name="IPAddress" maxLength={15} className="w-full px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="127.0.0.1" />
               </label><br/>
