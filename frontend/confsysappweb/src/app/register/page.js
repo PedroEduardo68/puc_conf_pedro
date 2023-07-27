@@ -107,8 +107,9 @@ with the values entered in the input fields. */
           <h1 className="text-orange-500 font-bold text-sm text-center">Filtro de Pesquisa Servidor </h1>
           </div>
 
-          <div className="flex w-screen align-middle items-center">
-            <table className="stable-auto  center">
+          
+          <div className="flex w-screen align-middle items-center ">
+            <table className="stable-auto  center sm:invisible">
               <thead className="bg-slate-500">
                 <tr className="">
                   <td className="border-4 border-orange-500">Endereço</td>
@@ -120,7 +121,7 @@ with the values entered in the input fields. */
                 </thead>
 
                 <tbody>
-                {dataSource.length !== 0 &&
+                {dataSource.length !== 0 ?
                   dataSource.map((row)=>{
                     return (
                       <tr className="" id={row._id}>
@@ -134,14 +135,14 @@ with the values entered in the input fields. */
                           <button className="bg-red-800 rounded-sm p-2 m-1">Remover</button>
                         </td>
                       </tr>
-                  )  
-              })}
+                  ) 
+              }):  <tr><td> Sem dados!  Constate o Administrador</td></tr>}
 
               </tbody>         
             </table>
           </div>
 
-        
+
       </main>
     </>
   )
