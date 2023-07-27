@@ -109,7 +109,6 @@ export const deleteDevice = async (req,res) => {
         password: req.body.password,
         user: req.body.user,
     }
-
     try{
         const deviceNew = new Devices_Model(device)
         const newData = await deviceNew.save();
