@@ -1,12 +1,27 @@
 'use client'
 import { useState } from "react"
+import { useEffect } from "react"
+import axios from 'axios'
+import { convertTimestampTostringBr } from "../helper/convertTime";
+
 
 export default function page() {
+  const [dataSource,setDataSource] = useState([]);
+
+  useEffect(async () => {
+    const response = await axios.get('http://192.168.18.145:5000/api/devices/')
+      console.log(response.data)
+      setDataSource(response.data)
+  },[]);
+
+
+
   const [submitInformationAcess, setSubmitInformationAcess] = useState({
     IPAddress: "",
     Username: "",
     password: "",
   });
+
 
 
   const SumbitServer = (e) => {
@@ -53,8 +68,8 @@ with the values entered in the input fields. */
 
   return (<>
     <h1 className="text-orange-500 font-bold text-xl text-center">Registro de Servidor </h1>
-      <main className="flex flex-wrap justify-between  p-10 flex-col ">
-        <div className="">
+      <main className="flex flex-wrap justify-between  p-5 flex-row ">
+        <div className="w-1/2 p-1">
           <form onSubmit={(e) => SumbitServer(e)} >
               <label name="IPAddress"  > Endereço do Servidor:
                 <input required id="IPAddress" type="text" name="IPAddress" maxLength={15} className="w-full px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="127.0.0.1" />
@@ -76,31 +91,53 @@ with the values entered in the input fields. */
             </form>
           </div>
 
+          <div className="w-1/2">
+          <form onSubmit={(e) => SumbitServer(e)} >
+              <label name="Username"> Caminho 
+                <input  required id="Username" type="text" name="Username" maxLength={40} className="w-full  px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"  placeholder="Usuario" />
+              </label><br/>
+
+              <button onSubmit className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Submeter </button>
+              <button onAbort className="bottom-2 text-white p-2 bg-red-800 m-3 rounded-md"> Limpar </button>
+            </form>
+          </div>
+
+
           <div>
           <h1 className="text-orange-500 font-bold text-sm text-center">Filtro de Pesquisa Servidor </h1>
           </div>
 
           <div className="flex w-screen align-middle items-center">
-            <table className="stable-auto  center bg-red-600">
-              <thead className="border-2">
-                <tr className="border-2 ">
-                  <td className="border-2">Endereço</td>
-                  <td className="border-2">User</td>
-                  <td className="border-2">Caminho</td>
-                  <td className="border-2">Ações</td>
+            <table className="stable-auto  center">
+              <thead className="bg-slate-500">
+                <tr className="">
+                  <td className="border-4 border-orange-500">Endereço</td>
+                  <td className="border-4 border-orange-500">Usuario</td>
+                  <td className="border-4 border-orange-500">Caminho</td>
+                  <td className="border-4 border-orange-500">Data De Criação</td>
+                  <td className="border-4 border-orange-500">Ações</td>
                 </tr>
+                </thead>
 
+                <tbody>
+                {dataSource.length !== 0 &&
+                  dataSource.map((row)=>{
+                    return (
+                      <tr className="" id={row._id}>
+                        <td className="border-r-2 border-b-2 p-2">{row.ipaddress}</td>
+                        <td className="border-r-2 border-b-2 p-2">{row.user}</td>
+                        <td className="border-r-2 border-b-2 p-2">{convertTimestampTostringBr(row.createdDate)}</td>
+                        <td className="border-r-2 border-b-2 p-2">/etc/apache/conf</td>
+                        <td className="border-b-2">
+                          <button className="bg-orange-400 rounded-sm p-2 m-1">Editar</button>
+                          <button className="bg-orange-400 rounded-sm p-2 m-1">Senha</button>
+                          <button className="bg-red-800 rounded-sm p-2 m-1">Remover</button>
+                        </td>
+                      </tr>
+                  )  
+              })}
 
-                
-                <tr className="border-2 ">
-                  <td className="border-2">10.1.1.1</td>
-                  <td className="border-2">casa</td>
-                  <td className="border-2">/etc/apache/conf</td>
-                  <td className="border-2">Alterar Senha Remover</td>
-                </tr>
-
-
-              </thead>
+              </tbody>         
             </table>
           </div>
 

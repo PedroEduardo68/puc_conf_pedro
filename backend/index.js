@@ -3,11 +3,13 @@ import mongoose from 'mongoose';
 import express  from 'express';
 import DevicesRouter from './app/routes/Devices.router.js'
 import {downloadFile}  from './app/services/SCP/scp.js'
+import cors from 'cors';
 
 
 const Main = async () =>{
     //express
     const app = express();
+    app.use(cors());
 
 
 
