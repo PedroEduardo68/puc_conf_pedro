@@ -5,8 +5,8 @@ const ModalEdit = (props) =>{
 
     return (
     <>
-        <div id="edit-modal" tabindex="-1" aria-hidden="true" class={`fixed flex  justify-center align-middle mt-20 ${props.hiddenModal} w-full bg-black bg-opacity-50 overflow-y-auto overflow-x-hidden inset-0 `}>
-            <div class="relative w-full max-w-md max-h-full">
+        <div id="edit-modal" tabindex="-1" aria-hidden="true" class={`fixed flex justify-center align-middle mt-20 ${props.hiddenModal} w-full bg-black bg-opacity-50 overflow-y-auto overflow-x-hidden inset-0 `}>
+            <div class="relative w-full max-w-md sm:max-w-sm max-h-full m-auto sm:ml-0">
                 <div class="relative rounded-lg shadow border-orange-400 border-2 bg-black ">
                     <button onClick={(e) => props.editDevice(e)}type="button" class="absolute top-3 right-2.5 text-black bg-white rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center " data-modal-hide="edit-modal">
                         X

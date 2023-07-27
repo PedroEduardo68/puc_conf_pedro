@@ -140,8 +140,8 @@ export default function page() {
           </div>
 
           
-          <div className="w-full align-middle items-center justify-between">
-            <table className=" m-auto sm:invisible">
+          <div className="w-full align-middle items-center justify-between sm:invisible">
+            <table className=" m-auto">
               <thead className="bg-slate-500">
                 <tr className="">
                   <td className="border-4 border-orange-500">Endereço</td>
@@ -177,9 +177,7 @@ export default function page() {
           {dataSource.length !== 0 ?
                   dataSource.map((row)=>{
                     return (
-
-
-                    <div class="max-w-sm rounded-md  border-orange-400 border-2 overflow-hidden shadow-lg md:invisible lg:invisible xl:invisible 2xl:invisible">
+                    <div class=" rounded-md m-auto border-orange-400 border-2 shadow-lg md:invisible lg:invisible xl:invisible 2xl:invisible">
                     <div class="px-6 py-4">
                     
                       
@@ -198,11 +196,6 @@ export default function page() {
               }):  <>Sem dados!  Constate o Administrador</>}
           
 
-
-
-
-
-          
           
           <ModalEdit hiddenModal={hiddenModal} editDevice={editDevice}/>
 
