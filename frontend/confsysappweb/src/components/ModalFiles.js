@@ -5,19 +5,41 @@ const ModalFiles = (props) =>{
 
     const [dataSource, setDataSource] = useState([])
 
+/**
+ * The function `getInformationsFiles` makes an asynchronous request to a specific API endpoint and
+ * sets the response data as the data source.
+ * @param id - The `id` parameter is the identifier of the device for which you want to retrieve
+ * information files.
+ */
     const getInformationsFiles = async (id) =>{
         const response = await axios.get(`http://192.168.18.145:5000/api/Files/device/${id}`)
-        setDataSource(response.data)
+        if(response.statusCode === 200){
+            setDataSource(response.data)
+        }else{
+            alert("Erro ao carregar os dados")
+        }
+        
     }
 
 
+/* The `useEffect` hook is used to perform side effects in functional components. In this case, the
+`useEffect` hook is used to fetch information about files when the `props.objServerFiles.id` value
+changes. */
     useEffect(() => {
         if(props.objServerFiles.id !== undefined){
             getInformationsFiles(props.objServerFiles.id)
         }
     },[props.objServerFiles.id])
+
     
-    
+/**
+ * The `removeFile` function is an asynchronous function that sends a DELETE request to a specific API
+ * endpoint to delete a file, and then updates the table of devices if the request is successful.
+ * @param e - The 'e' parameter is an event object that is passed to the function when the event (in
+ * this case, a form submission) occurs. It is used to prevent the default behavior of the event, which
+ * in this case is to submit the form and refresh the page.
+ * @param _id - The _id parameter is the unique identifier of the file that you want to remove.
+ */
     const removeFile = async (e, _id) =>{
         e.preventDefault();
         const response = await axios.delete(`http://192.168.18.145:5000/api/Files/${_id}`)
