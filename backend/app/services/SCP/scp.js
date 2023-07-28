@@ -15,7 +15,7 @@ import { Client } from 'node-scp'
  * @param localfile - The `localfile` parameter is the path and filename of the file on the local
  * machine where you want to save the downloaded file.
  */
-export const downloadFile = async (ipaddress,user,password,remotefile, localfile) => {
+export const downloadFile = async (ipaddress,user,password,remotefile,localfile) => {
   try {
     const client = await Client({
       host: ipaddress ,
@@ -25,8 +25,10 @@ export const downloadFile = async (ipaddress,user,password,remotefile, localfile
     })
     await client.downloadFile(remotefile, localfile);
     client.close() 
+    return {sucess: true, mensage: 'sucessful'}
   } catch (e) {
     console.log(`<>ERRO </> ${e}`)
+    return {sucess: false, mensage: e}
   }
 }
 

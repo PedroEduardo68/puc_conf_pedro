@@ -5,6 +5,7 @@ import DevicesRouter from './app/routes/Devices.router.js'
 import FilesRouter from './app/routes/Files.router.js'
 import {downloadFile}  from './app/services/SCP/scp.js'
 import cors from 'cors';
+import ActionsRouter from './app/routes/Actions.router.js';
 
 
 const Main = async () =>{
@@ -36,9 +37,6 @@ const Main = async () =>{
     // await device.save();
 
 
-    await downloadFile('192.168.18.199','ubuntu','ubuntu','/home/ubuntu/teste.txt', './teste_dadsada_25.txt')
-    
-
 
     /* The code `app.use('/api/devices/', DevicesRouter)` is setting up a middleware in the Express
     application. It specifies that any requests with the path '/api/devices/' should be handled by the
@@ -52,6 +50,13 @@ const Main = async () =>{
     // `FilesRouter` router. This means that any routes defined in the `FilesRouter` will be accessible
     // under the '/api/Files/' path. */
     app.use('/api/Files/', FilesRouter)
+
+    /* The code `app.use('/api/actions/', ActionsRouter)` is setting up a middleware in the Express
+    application. It specifies that any requests with the path '/api/actions/' should be handled by the
+    `ActionsRouter` router. This means that any routes defined in the `ActionsRouter` will be accessible
+    under the '/api/actions/' path. */
+        app.use('/api/actions/', ActionsRouter)
+
 
 
     // Define a route default 
