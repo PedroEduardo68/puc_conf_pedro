@@ -94,13 +94,14 @@ export const createDevice = async (req,res) => {
 export const updateDevice = async (req,res) => {
 
     let device = {
+        nameserver: req.body.nameserver,
         ipaddress: req.body.ipaddress,
         password: req.body.password,
         user: req.body.user,
     }
 
     try{
-        const updateInfo =await Devices_Model.findByIdAndUpdate(documentId, device , { new: true })
+        const updateInfo =await Devices_Model.findByIdAndUpdate(req.params.id, device, { new: true })
         res.status(200).json(updateInfo)
 
     }catch (err) {

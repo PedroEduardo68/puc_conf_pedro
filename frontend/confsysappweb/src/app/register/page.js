@@ -9,6 +9,39 @@ import ModalEdit from "@/components/Modal";
 export default function page() {
   const [dataSource,setDataSource] = useState([]);
   const [hiddenModal,sethiddenModal] = useState('hidden');
+  const [objServerEdit,setobjServerEdit] = useState({});
+
+  const [isMobile, setIsMobile] = useState(false);
+
+
+
+  useEffect(() => {
+/**
+ * The function `handleResize` checks if the window width is less than or equal to 768 pixels and sets
+ * the value of `isMobile` accordingly.
+ */
+    const handleResize = () => {
+      
+      const isMobileScreen = window.matchMedia('(max-width: 767px)').matches;
+      setIsMobile(isMobileScreen);
+    };
+
+    
+    /* The code `window.addEventListener('resize', handleResize);` is adding an event listener to the
+    window object for the 'resize' event. When the window is resized, the `handleResize` function
+    will be called. This allows the code to respond to changes in the window size and perform any
+    necessary actions. In this case, the `handleResize` function checks if the window width is less
+    than or equal to 768 pixels and sets the value of the `isMobile` state variable accordingly. */
+    window.addEventListener('resize', handleResize);
+
+   
+    handleResize();
+
+    
+    /* The code `return () => window.removeEventListener('resize', handleResize);` is a cleanup
+    function that is returned by the `useEffect` hook. */
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
 
   const updateTableDevices = async () => {
@@ -64,6 +97,12 @@ export default function page() {
 
     const response = await axios.post(`http://192.168.18.145:5000/api/devices/`, informationSubmit)
 
+/* The code block is checking the status of the HTTP response received from the server after making a
+POST request to create a new device. If the status code is 200 (indicating a successful request), it
+displays an alert message saying "Cadastrado com Sucesso!" (which means "Registered Successfully" in
+Portuguese) and calls the `updateTableDevices()` function to update the table of devices. If the
+status code is not 200, it displays an alert message saying "Erro ao cadastrar!" (which means "Error
+while registering" in Portuguese). */
 
     if(response.status === 200) {
       alert(`Cadastrado com Sucesso!`)
@@ -88,8 +127,24 @@ export default function page() {
 
 
 
-  const editDevice = (e)=>{
+/**
+ * The function `editDevice` toggles the visibility of a modal element when called.
+ * @param e - The parameter "e" is an event object that is passed to the function when it is triggered
+ * by an event. It contains information about the event that occurred, such as the target element, the
+ * type of event, and any additional data associated with the event. In this case, it is used to
+ */
+  const editDevice = (e,_id,nameserver,ipaddress,user)=>{
     e.preventDefault();
+
+
+    setobjServerEdit({
+      _id: _id,
+      nameserver: nameserver,
+      ipaddress: ipaddress,
+      user: user,
+    })
+
+  
     
     if (hiddenModal === 'hidden'){
         sethiddenModal('');
@@ -102,8 +157,9 @@ export default function page() {
 
 
   return (<>
-    <h1 className="text-orange-500 font-bold text-xl text-center">Registro de Servidor </h1>
-      <main className="flex flex-wrap justify-between text-center align-middle p-5 flex-row w-full">
+      <h1 className="text-orange-500 font-bold text-xl text-center ">Registro de Servidor </h1>  
+      <main className="flex flex-wrap justify-between text-center align-middle pt-5 w-full mb-2">
+      
           <div className="w-1/2 sm:w-full p-1">
             <form onSubmit={(e) => SumbitServer(e)} >
               <label name="nameserver"  > Name Servidor:
@@ -147,7 +203,34 @@ export default function page() {
           </div>
 
           
-          <div className="w-full align-middle items-center justify-between sm:invisible">
+
+
+          {isMobile ? (
+            <>
+            {dataSource.length !== 0 ?
+                  dataSource.map((row)=>{
+                    return (
+                    <div class=" rounded-md m-auto border-orange-400 border-2 shadow-lg md:invisible md:block  lg:block lg:invisible xl:block xl:invisible  2xl:block 2xl:invisible">
+                    <div class="px-6 py-4">
+                    
+                      
+                      <p class="text-white ">
+                      Nome do servidor: <span> {row.nameserver} </span> <br />
+                      Endereço IP: <span> {row.ipaddress} </span> <br />
+                      Usuario: <span> {row.user} </span> <br />
+                      Data de Criação: <span>{convertTimestampTostringBr(row.createdDate)}</span> <br /> 
+                      Caminho: <span>/etc/apache/conf </span><br /> 
+                      </p><br /> 
+                      <button className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => editDevice(e,row._id,row.nameserver,row.ipaddress,row.user)}>Editar</button>
+                      <button className="bg-orange-400 rounded-sm p-2 m-1"> Caminho </button>
+                      <button className="bg-red-800 rounded-sm p-2 m-1" onClick={(e) => removeDevices(e,row._id)}>Remover</button>
+                    </div>
+                  </div>
+                  ) 
+              }):  <>Sem dados!  Constate o Administrador</>}
+            </>
+          ) : (
+            <div className="w-full align-middle items-center justify-between sm:invisible sm:block">
             <table className=" m-auto">
               <thead className="bg-slate-500">
                 <tr className="">
@@ -171,7 +254,7 @@ export default function page() {
                         <td className="border-r-2 border-b-2 p-2">{convertTimestampTostringBr(row.createdDate)}</td>
                         <td className="border-r-2 border-b-2 p-2">/etc/apache/conf</td>
                         <td className="border-b-2">
-                          <button className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => editDevice(e,row._id)}>Editar</button>
+                          <button className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => editDevice(e,row._id,row.nameserver,row.ipaddress,row.user)}>Editar</button>
                           <button className="bg-orange-400 rounded-sm p-2 m-1"> Caminho </button>
                           <button className="bg-red-800 rounded-sm p-2 m-1" onClick={(e) => removeDevices(e,row._id)}>Remover</button>
                         </td>
@@ -182,32 +265,14 @@ export default function page() {
               </tbody>         
             </table>
           </div>
-
-          {dataSource.length !== 0 ?
-                  dataSource.map((row)=>{
-                    return (
-                    <div class=" rounded-md m-auto border-orange-400 border-2 shadow-lg md:invisible lg:invisible xl:invisible 2xl:invisible">
-                    <div class="px-6 py-4">
-                    
-                      
-                      <p class="text-white ">
-                      Nome do servidor: <span> {row.nameserver} </span> <br />
-                      Endereço IP: <span> {row.ipaddress} </span> <br />
-                      Usuario: <span> {row.user} </span> <br />
-                      Data de Criação: <span>{convertTimestampTostringBr(row.createdDate)}</span> <br /> 
-                      Caminho: <span>/etc/apache/conf </span><br /> 
-                      </p><br /> 
-                      <button className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => editDevice(e,row._id)}>Editar</button>
-                      <button className="bg-orange-400 rounded-sm p-2 m-1"> Caminho </button>
-                      <button className="bg-red-800 rounded-sm p-2 m-1" onClick={(e) => removeDevices(e,row._id)}>Remover</button>
-                    </div>
-                  </div>
-                  ) 
-              }):  <>Sem dados!  Constate o Administrador</>}
+            
+          )}
           
 
           
-          <ModalEdit hiddenModal={hiddenModal} editDevice={editDevice}/>
+
+          
+          <ModalEdit hiddenModal={hiddenModal} editDevice={editDevice} updateTableDevices={updateTableDevices} informationObj={objServerEdit}/>
 
       </main>
     </>
