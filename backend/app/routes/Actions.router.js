@@ -1,7 +1,7 @@
 // GET: / | displayHome()
 
 import {Router} from 'express'
-import { backupnowalldevices } from '../controller/Action.controll.js';
+import { backupnowalldevices, backupnowfilesByID } from '../controller/Action.controll.js';
 
 
 const ActionsRouter = Router()
@@ -9,6 +9,11 @@ const ActionsRouter = Router()
 
 //Action to all devices
 ActionsRouter.get('/', backupnowalldevices)  
+
+//Action to all devices
+ActionsRouter.get('/:id', backupnowfilesByID)  
+
+
 
 
 

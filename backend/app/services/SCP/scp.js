@@ -27,7 +27,6 @@ export const downloadFile = async (ipaddress,user,password,remotefile,localfile)
     client.close() 
     return {sucess: true, mensage: 'sucessful'}
   } catch (e) {
-    console.log(`<>ERRO </> ${e}`)
     return {sucess: false, mensage: e}
   }
 }

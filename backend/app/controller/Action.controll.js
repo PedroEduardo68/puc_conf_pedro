@@ -1,68 +1,49 @@
-import { Devices_Model } from "../model/Devices.model.js"
-import { Files_Model } from "../model/Files.model.js"
-import { HistoryFiles_Model } from "../model/HistoryFiles.model.js";
-import { downloadFile } from "../services/SCP/scp.js"
-import { addDays, createNameDataFile } from "../services/helper/datainformation.js"
-import uuid from "node-uuid";
+import { TypeProcessGETAllFiles, TypeProcessGETByIDFiles } from "../services/Process/TypeProcess.js"
 
+
+/**
+ * The function `backupnowalldevices` is an asynchronous function that handles a request to backup all
+ * devices and sends a response with the result.
+ * @param req - The `req` parameter is the request object that contains information about the HTTP
+ * request made by the client. It includes details such as the request method, headers, query
+ * parameters, and body.
+ * @param res - The "res" parameter is the response object that is used to send the response back to
+ * the client. It is an object that contains methods and properties for handling the response, such as
+ * setting the status code and sending the response body. In this code snippet, it is used to send the
+ * response with
+ */
 export const backupnowalldevices = async (req,res) => {
-    let successCount = 0;
-    let errorCount = 0;
-    let errorFiles = [{}];
-
-    const findAll =  await Files_Model.find({})
-        
-    for (let i = 0; i < findAll.length; i++){
-        const device =  await Devices_Model.findById(findAll[i].iddevice)
-        const dateFile = await createNameDataFile();
-        const response = await downloadFile(device.ipaddress,device.user,device.password,findAll[i].sourcefileRemote, `./filesServers/${dateFile.nameFile}_${uuid()}`)
-
-        if(response.sucess){
-            successCount += 1;
-
-                let fileUpdate = {
-                    lastdatatimebackup: dateFile.timeStampToday,
-                    backupname: `${dateFile.nameFile}_${uuid()}`
-                }
-
-                let fileHistory= {
-                    destinatefileRemote: `./filesServers/${dateFile.nameFile}_${uuid()}`,
-                    lastdatatimebackup: dateFile.timeStampToday,
-                    backupname: `${dateFile.nameFile}_${uuid()}`,
-                    idfile: findAll[i]._id,
-                    successFile: response.success,
-                    DateRemoveFile: addDays(7),
-                }
-
-
-                await Files_Model.findByIdAndUpdate(findAll[i]._id, fileUpdate, { new: true })
-
-                const historyNew = new HistoryFiles_Model(fileHistory)
-                const newData = await historyNew.save();
-
-
-        }else {
-            errorCount += 1;
-            errorFiles.push({ipaddress : device.ipaddress, file: findAll[i].sourcefileRemote, err : response.mensage, timestamp: dateFile.timeStampToday, deviceid : device._id, FileId: findAll[i]._id })
-            
-            let fileHistory= {
-                destinatefileRemote: `./filesServers/${dateFile.nameFile}_${uuid()}`,
-                lastdatatimebackup: dateFile.timeStampToday,
-                backupname: `${dateFile.nameFile}_${uuid()}`,
-                idfile: findAll[i]._id,
-                successFile: response.success,
-                messageErr: response.mensage,
-            }
-
-
-            const historyNew = new HistoryFiles_Model(fileHistory)
-            await historyNew.save();
-
-        }
+    try{
+        const response = await TypeProcessGETAllFiles();
+        res.status(200).send(response)
+    }catch{
+        res.status(500).send({message: "Internal server error"})
     }
-
-    res.status(200).json({success: successCount, faleid: errorCount, information : errorFiles})
 }
+
+
+
+/**
+ * The function `backupnowfilesByID` is an asynchronous function that handles a GET request to retrieve
+ * files by ID and sends a response with the retrieved files or an error message.
+ * @param req - The `req` parameter is the request object that contains information about the incoming
+ * HTTP request, such as the request headers, request parameters, and request body. In this case,
+ * `req.params.id` is accessing the `id` parameter from the request URL.
+ * @param res - The "res" parameter is the response object that is used to send the response back to
+ * the client. It is an object that contains methods and properties related to the HTTP response, such
+ * as status(), send(), and json(). In this code snippet, it is used to send the response with the
+ * status
+ */
+export const backupnowfilesByID = async (req,res) => {
+    try{
+        const response = await TypeProcessGETByIDFiles(req.params.id);
+        res.status(200).send(response)
+    }catch{
+        res.status(500).send({message: "Internal server error"})
+    }
+}
+
+
 
 
 
