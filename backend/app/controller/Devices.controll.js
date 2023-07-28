@@ -70,14 +70,14 @@ export const createDevice = async (req,res) => {
         nameserver: req.body.nameserver
     }
 
-    // try{
+    try{
         const deviceNew = new Devices_Model(device)
         const newData = await deviceNew.save();
         res.status(200).json(newData)
 
-    // }catch (err) {
-    //     res.status(503).send({"ERROR":"contact the administrator"})
-    // }
+    }catch (err) {
+        res.status(503).send({"ERROR":"contact the administrator"})
+    }
 }
 
 

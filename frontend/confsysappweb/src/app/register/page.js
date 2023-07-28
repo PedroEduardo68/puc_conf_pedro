@@ -4,14 +4,18 @@ import { useEffect } from "react"
 import axios from 'axios'
 import { convertTimestampTostringBr } from "../helper/convertTime";
 import ModalEdit from "@/components/Modal";
+import ModalFiles from "@/components/ModalFiles";
 
 
 export default function page() {
   const [dataSource,setDataSource] = useState([]);
   const [hiddenModal,sethiddenModal] = useState('hidden');
   const [objServerEdit,setobjServerEdit] = useState({});
+  const [objServerFiles,setobjServerFiles] = useState({});
 
   const [isMobile, setIsMobile] = useState(false);
+
+  const [hiddenModalfiles, sethiddenModalfiles] = useState('hidden');
 
 
 
@@ -156,6 +160,27 @@ while registering" in Portuguese). */
   }
 
 
+
+
+  const modalFile = (e,id)=>{
+    e.preventDefault();
+
+    setobjServerFiles({
+      id: id,
+    })
+
+
+    if (hiddenModalfiles === 'hidden'){
+        sethiddenModalfiles('');
+    }else{
+        sethiddenModalfiles('hidden');
+    }
+      
+  }
+
+
+
+
   return (<>
       <h1 className="text-orange-500 font-bold text-xl text-center ">Registro de Servidor </h1>  
       <main className="flex flex-wrap justify-between text-center align-middle pt-5 w-full mb-2">
@@ -219,10 +244,9 @@ while registering" in Portuguese). */
                       Endereço IP: <span> {row.ipaddress} </span> <br />
                       Usuario: <span> {row.user} </span> <br />
                       Data de Criação: <span>{convertTimestampTostringBr(row.createdDate)}</span> <br /> 
-                      Caminho: <span>/etc/apache/conf </span><br /> 
                       </p><br /> 
                       <button className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => editDevice(e,row._id,row.nameserver,row.ipaddress,row.user)}>Editar</button>
-                      <button className="bg-orange-400 rounded-sm p-2 m-1"> Caminho </button>
+                      <button className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => modalFile(e,row._id)}> Caminho </button>
                       <button className="bg-red-800 rounded-sm p-2 m-1" onClick={(e) => removeDevices(e,row._id)}>Remover</button>
                     </div>
                   </div>
@@ -237,7 +261,6 @@ while registering" in Portuguese). */
                   <td className="border-4 border-orange-500">Nome</td>
                   <td className="border-4 border-orange-500">Endereço</td>
                   <td className="border-4 border-orange-500">Usuario</td>
-                  <td className="border-4 border-orange-500">Caminho</td>
                   <td className="border-4 border-orange-500">Data De Criação</td>
                   <td className="border-4 border-orange-500">Ações</td>
                 </tr>
@@ -252,10 +275,9 @@ while registering" in Portuguese). */
                         <td className="border-r-2 border-b-2 p-2">{row.ipaddress}</td>
                         <td className="border-r-2 border-b-2 p-2">{row.user}</td>
                         <td className="border-r-2 border-b-2 p-2">{convertTimestampTostringBr(row.createdDate)}</td>
-                        <td className="border-r-2 border-b-2 p-2">/etc/apache/conf</td>
                         <td className="border-b-2">
                           <button className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => editDevice(e,row._id,row.nameserver,row.ipaddress,row.user)}>Editar</button>
-                          <button className="bg-orange-400 rounded-sm p-2 m-1"> Caminho </button>
+                          <button className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => modalFile(e,row._id)}> Caminho </button>
                           <button className="bg-red-800 rounded-sm p-2 m-1" onClick={(e) => removeDevices(e,row._id)}>Remover</button>
                         </td>
                       </tr>
@@ -273,7 +295,7 @@ while registering" in Portuguese). */
 
           
           <ModalEdit hiddenModal={hiddenModal} editDevice={editDevice} updateTableDevices={updateTableDevices} informationObj={objServerEdit}/>
-
+          <ModalFiles hiddenModalfiles={hiddenModalfiles} objServerFiles={objServerFiles} modalFile={modalFile} />
       </main>
     </>
   )

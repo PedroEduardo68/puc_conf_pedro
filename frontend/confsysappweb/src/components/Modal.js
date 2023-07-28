@@ -7,6 +7,7 @@ const ModalEdit = (props) =>{
 
 
 
+/* This code block is responsible for updating the information of a device in the database. */
         let informationUpdate = {
             ipaddress: e.target.ipaddress.value,
             user: e.target.user.value,
@@ -23,6 +24,9 @@ const ModalEdit = (props) =>{
             alert('Erro ao atualizar')
         }
 
+/* `props.updateTableDevices()` is a function that is being called to update the table of devices. It
+is likely that this function is defined in the parent component and is responsible for fetching the
+updated data from the server and re-rendering the table. */
         props.updateTableDevices()
         props.editDevice(e)
     }

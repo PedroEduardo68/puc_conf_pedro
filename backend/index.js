@@ -2,7 +2,7 @@ import config from './config.js'
 import mongoose from 'mongoose';
 import express  from 'express';
 import DevicesRouter from './app/routes/Devices.router.js'
-// import FilesRouter from './app/routes/Files.router.js'
+import FilesRouter from './app/routes/Files.router.js'
 import {downloadFile}  from './app/services/SCP/scp.js'
 import cors from 'cors';
 
@@ -51,7 +51,7 @@ const Main = async () =>{
     // application. It specifies that any requests with the path '/api/Files/' should be handled by the
     // `FilesRouter` router. This means that any routes defined in the `FilesRouter` will be accessible
     // under the '/api/Files/' path. */
-    // app.use('/api/Files/', FilesRouter)
+    app.use('/api/Files/', FilesRouter)
 
 
     // Define a route default 
