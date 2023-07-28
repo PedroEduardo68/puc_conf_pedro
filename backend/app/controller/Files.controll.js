@@ -33,7 +33,6 @@ import { Files_Model } from "../model/Files.model.js"
 export const createFiles = async (req,res) => {
 
     let file = {
-        nameFile: req.body.nameFile,
         sourcefileRemote: req.body.sourcefileRemote,
         iddevice: req.body.deviceid,
     }
@@ -42,7 +41,6 @@ export const createFiles = async (req,res) => {
         let newData = await fileNew.save();
         res.status(200).json(newData)
         
-
     }catch (err) {
         res.status(503).send({"ERROR":"contact the administrator"})
     }

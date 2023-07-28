@@ -5,9 +5,11 @@ import axios from 'axios'
 import { convertTimestampTostringBr } from "../helper/convertTime";
 import ModalEdit from "@/components/Modal";
 import ModalFiles from "@/components/ModalFiles";
+import AutoSerch from "@/components/autosearch";
 
 
 export default function page() {
+  const [selectedOption, setSelectedOption] = useState("");
   const [dataSource,setDataSource] = useState([]);
   const [hiddenModal,sethiddenModal] = useState('hidden');
   const [objServerEdit,setobjServerEdit] = useState({});
@@ -51,6 +53,7 @@ export default function page() {
   const updateTableDevices = async () => {
     const response = await axios.get('http://192.168.18.145:5000/api/devices/')
     setDataSource(response.data)
+    console.log(response.data)
   }
 
 
@@ -162,6 +165,14 @@ while registering" in Portuguese). */
 
 
 
+/**
+ * The function `modalFile` is used to handle the opening and closing of a modal file.
+ * @param e - The parameter "e" is an event object that is passed to the function. It is typically used
+ * to access information about the event that triggered the function, such as the target element or the
+ * event type.
+ * @param id - The `id` parameter is the unique identifier of the file that is being passed to the
+ * `modalFile` function.
+ */
   const modalFile = (e,id)=>{
     e.preventDefault();
 
@@ -180,12 +191,51 @@ while registering" in Portuguese). */
 
 
 
+/**
+ * The function `SumbitServerpath` is used to submit a server path along with a device ID to a server
+ * using an HTTP POST request.
+ * @param e - The parameter `e` is an event object that is passed to the function when it is triggered
+ * by an event, such as a form submission. It contains information about the event, such as the target
+ * element and the values entered in the form fields.
+ * @returns In the code provided, nothing is being explicitly returned. However, the function
+ * `SumbitServerpath` does have a conditional return statement `return` if `selectedOption._id` is
+ * undefined.
+ */
+  const SumbitServerpath = async (e) =>{
+    e.preventDefault();
+
+
+    if(selectedOption._id !== undefined || e.target.path.value !== undefined){
+      let SumbitServerpath = {
+        deviceid: selectedOption._id,
+        sourcefileRemote: e.target.path.value,
+      }
+      const response = await axios.post(`http://192.168.18.145:5000/api/Files/`,SumbitServerpath)
+      console.log(response)
+
+      if(response.status === 200) {
+        alert(`Cadastrado com Sucesso!`)
+      }else {
+        alert(`Erro ao cadastrar!`)
+      }
+
+      e.target.path.value = "";
+  
+    }else {
+      return
+    }
+
+    e.target.path.value = "";
+  }
+
+
 
   return (<>
-      <h1 className="text-orange-500 font-bold text-xl text-center ">Registro de Servidor </h1>  
+      
       <main className="flex flex-wrap justify-between text-center align-middle pt-5 w-full mb-2">
       
           <div className="w-1/2 sm:w-full p-1">
+          <h1 className="text-orange-500 font-bold text-xl text-center ">Registro de Servidor </h1>  
             <form onSubmit={(e) => SumbitServer(e)} >
               <label name="nameserver"  > Name Servidor:
                 <input required id="nameserver" type="text" name="nameserver" maxLength={45} className="w-full px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="Nome do servidor" />
@@ -205,19 +255,27 @@ while registering" in Portuguese). */
                 <input required id="password" type="password" name="password" maxLength={40} className="w-full  px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="Senha" />
               </label><br/>
 
-              <button onSubmit className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Submeter </button>
+              <button onSubmit className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Salvar </button>
               <button onAbort className="bottom-2 text-white p-2 bg-red-800 m-3 rounded-md"> Limpar </button>
 
             </form>
           </div>
 
           <div className="w-1/2 sm:w-full">
-            <form onSubmit={(e) => SumbitServer(e)} >
-                <label name="Username"> Caminho 
-                  <input  required id="Username" type="text" name="Username" maxLength={40} className="w-full  px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"  placeholder="Usuario" />
+          <h1 className="text-orange-500 font-bold text-xl text-center ">Registro de Caminho </h1>  
+            <form onSubmit={(e) => SumbitServerpath(e)} >
+
+                {dataSource.length > 0 && 
+                  <AutoSerch options={dataSource} 
+                            value={selectedOption}
+                            onChange={setSelectedOption}
+                  />
+                }
+                <label name="path"> Caminho 
+                  <input  required id="path" type="text" name="path" maxLength={40} className="w-full  px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"  placeholder="/etc/etc/etc.conf" />
                 </label><br/>
 
-                <button onSubmit className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Submeter </button>
+                <button onSubmit className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Salvar </button>
                 <button onAbort className="bottom-2 text-white p-2 bg-red-800 m-3 rounded-md"> Limpar </button>
               </form>
           </div>

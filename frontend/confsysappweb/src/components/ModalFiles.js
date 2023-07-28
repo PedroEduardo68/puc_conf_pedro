@@ -13,7 +13,8 @@ const ModalFiles = (props) =>{
  */
     const getInformationsFiles = async (id) =>{
         const response = await axios.get(`http://192.168.18.145:5000/api/Files/device/${id}`)
-        if(response.statusCode === 200){
+
+        if(response.status === 200){
             setDataSource(response.data)
         }else{
             alert("Erro ao carregar os dados")
