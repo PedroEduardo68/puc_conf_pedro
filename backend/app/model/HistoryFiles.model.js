@@ -21,7 +21,7 @@ const HistoryFilesSchema = new mongoose.Schema({
         unique: false,
     },
     successFile:{
-        type: String,
+        type: Boolean,
         unique: false,
     },
     messageErr:{

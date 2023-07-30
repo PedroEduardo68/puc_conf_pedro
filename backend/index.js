@@ -3,9 +3,12 @@ import mongoose from 'mongoose';
 import express  from 'express';
 import DevicesRouter from './app/routes/Devices.router.js'
 import FilesRouter from './app/routes/Files.router.js'
-import {downloadFile}  from './app/services/SCP/scp.js'
 import cors from 'cors';
 import ActionsRouter from './app/routes/Actions.router.js';
+import HistoryRouter from './app/routes/History.router.js';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
 
 
 const Main = async () =>{
@@ -13,6 +16,17 @@ const Main = async () =>{
     const app = express();
     app.use(cors());
     app.use(express.json())
+
+
+
+    // Get the current directory path using 'import.meta.url'
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+
+    // Set the static files directory
+    const staticFilesDir = join(__dirname, 'FilesServers');
+    app.use(express.static(staticFilesDir));
+
 
 
 
@@ -26,17 +40,6 @@ const Main = async () =>{
    the Mongoose library. */
     mongoose.connect(`${config.url_mongodb}`,{ useNewUrlParser: true, useUnifiedTopology: true }).catch(`<> Falied connected <>`)
     
-
-
-    // const device = new Devices_Model({
-    //     ipaddress : "192.168.1.10",
-    //     user: "teste",
-    //     password:"teste"
-    // })
-
-    // await device.save();
-
-
 
     /* The code `app.use('/api/devices/', DevicesRouter)` is setting up a middleware in the Express
     application. It specifies that any requests with the path '/api/devices/' should be handled by the
@@ -55,9 +58,16 @@ const Main = async () =>{
     application. It specifies that any requests with the path '/api/actions/' should be handled by the
     `ActionsRouter` router. This means that any routes defined in the `ActionsRouter` will be accessible
     under the '/api/actions/' path. */
-        app.use('/api/actions/', ActionsRouter)
+    app.use('/api/actions/', ActionsRouter)
 
 
+    /* `app.use('/api/history/', HistoryRouter)` is setting up a middleware in the Express application.
+    It specifies that any requests with the path '/api/history/' should be handled by the
+    `HistoryRouter` router. This means that any routes defined in the `HistoryRouter` will be
+    accessible under the '/api/history/' path. */
+    app.use('/api/history/', HistoryRouter)
+
+    
 
     // Define a route default 
     app.get('/', (req, res) => {

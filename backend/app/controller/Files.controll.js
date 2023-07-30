@@ -1,5 +1,11 @@
-import { Devices_Model } from "../model/Devices.model.js"
+
 import { Files_Model } from "../model/Files.model.js"
+
+import { getViewFilesById } from "../services/ReadFiles/TypeRead.js";
+
+import path from 'path';
+import fs from 'fs';
+
 
 
 // export const FindAllDevices = async (req,res) => {
@@ -10,6 +16,9 @@ import { Files_Model } from "../model/Files.model.js"
 //         res.status(503).send({"ERROR":"contact the administrator"})
 //     }
 // }
+
+
+
 
 
 
@@ -94,6 +103,52 @@ export const deleteFiles = async (req,res) => {
     else {
         res.status(404).send({"ERROR":"Dispositivo não encontrado!"})
     }
+}
+
+
+
+
+/**
+ * The function `ViewFile` is an asynchronous function that handles a request to view a file by its ID
+ * and sends the file data as a response.
+ * @param req - The `req` parameter is the request object, which contains information about the HTTP
+ * request made by the client. It includes details such as the request method, headers, query
+ * parameters, and body.
+ * @param res - The `res` parameter is the response object that is used to send the response back to
+ * the client. It is an instance of the Express `Response` object.
+ */
+export const ViewFile = async (req, res) => {
+    await getViewFilesById(req.params.id,res);
+};
+
+
+
+export const DownloadFileGet = async (req, res) => {
+
+    const fileName = req.params.file; // Replace with the name of the file you want to download
+    const currentFileUrl = import.meta.url;
+    const currentDirPath = path.dirname(new URL(currentFileUrl).pathname);
+    const filePath = path.join(currentDirPath, '..', 'FilesServers', fileName);
+  
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).end();
+    }
+    fs.stat(filePath, (err, stats) => {
+      if (err) {
+        console.error('Error accessing the file:', err);
+        return res.status(500).end();
+      }
+  
+      const fileSize = stats.size;
+      const fileStream = fs.createReadStream(filePath);
+  
+      res.setHeader('Content-Length', fileSize);
+      res.setHeader('Content-Type', 'application/octet-stream');
+      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+  
+      fileStream.pipe(res);
+    });
+
 }
 
 

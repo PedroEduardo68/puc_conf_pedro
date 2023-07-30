@@ -1,15 +1,10 @@
-// GET: / | displayHome()
-// GET: /Devices | getUsers()
-// GET: /Devices/:id | getUserById()
-// POST: /Devices | createUser()
-// PUT: /Devices/:id | updateUser()
-// DELETE: /Devices/:id | deleteUser()7
 
 import {Router} from 'express'
-import { createFiles , getFilesByIdDevices, deleteFiles} from '../controller/Files.controll.js'
+import { createFiles , getFilesByIdDevices, deleteFiles, ViewFile, DownloadFileGet} from '../controller/Files.controll.js'
+
+
 
 const FilesRouter = Router()
-
 
 // //Find all devices
 // FilesRouter.get('/', FindAllFiles)  
@@ -32,6 +27,12 @@ FilesRouter.get('/device/:id', getFilesByIdDevices)
 
 
 
+//download file
+FilesRouter.get('/download/:file', DownloadFileGet )  
+
+
+//View Files
+FilesRouter.get('/viewfile/:id', ViewFile)  
 
 
 export default FilesRouter;

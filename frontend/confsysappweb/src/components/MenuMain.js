@@ -10,7 +10,7 @@ const MenuMain = (props) =>{
                 <h1 className="font-mono text-base">Confsys</h1>
             </div>
             <div className="w-2/3">
-                <ul className="flex ">
+                <ul className="flex pt-4">
                     <li className="mr-6 ">
                         <Link href='/' className="text-orange-400 hover:text-orange-800 cursor-pointer">Home </Link>
                     </li>
@@ -18,14 +18,14 @@ const MenuMain = (props) =>{
                         <Link href='/register' className="text-orange-400 hover:text-orange-800 cursor-pointer">Register </Link>
                     </li>
                     <li className="mr-6">
-                        <Link href='/' className="text-orange-400 hover:text-orange-800 cursor-pointer" >Procurar Configurações</Link>
+                        <Link href='/search' className="text-orange-400 hover:text-orange-800 cursor-pointer" >Procurar </Link>
                     </li>
                 </ul>
                 
             </div>
 
         </div>
-    
+
         <hr className="border-orange-400"/>
         </>
     )

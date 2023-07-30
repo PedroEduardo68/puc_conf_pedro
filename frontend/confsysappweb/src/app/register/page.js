@@ -51,7 +51,7 @@ export default function page() {
 
 
   const updateTableDevices = async () => {
-    const response = await axios.get('http://192.168.18.145:5000/api/devices/')
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/devices/`)
     setDataSource(response.data)
     console.log(response.data)
   }
@@ -79,7 +79,7 @@ export default function page() {
  */
   const removeDevices = async (e,id) => {
     e.preventDefault();
-    const response = await axios.delete(`http://192.168.18.145:5000/api/devices/${id}`)
+    const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/devices/${id}`)
     
     if(response.status === 200) {
       updateTableDevices()
@@ -102,7 +102,7 @@ export default function page() {
     }
 
 
-    const response = await axios.post(`http://192.168.18.145:5000/api/devices/`, informationSubmit)
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/devices/`, informationSubmit)
 
 /* The code block is checking the status of the HTTP response received from the server after making a
 POST request to create a new device. If the status code is 200 (indicating a successful request), it
@@ -210,7 +210,7 @@ while registering" in Portuguese). */
         deviceid: selectedOption._id,
         sourcefileRemote: e.target.path.value,
       }
-      const response = await axios.post(`http://192.168.18.145:5000/api/Files/`,SumbitServerpath)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/Files/`,SumbitServerpath)
       console.log(response)
 
       if(response.status === 200) {
@@ -233,8 +233,7 @@ while registering" in Portuguese). */
   return (<>
       
       <main className="flex flex-wrap justify-between text-center align-middle pt-5 w-full mb-2">
-      
-          <div className="w-1/2 sm:w-full p-1">
+          <div className="w-1/2 sm:w-full pr-1">
           <h1 className="text-orange-500 font-bold text-xl text-center ">Registro de Servidor </h1>  
             <form onSubmit={(e) => SumbitServer(e)} >
               <label name="nameserver"  > Name Servidor:

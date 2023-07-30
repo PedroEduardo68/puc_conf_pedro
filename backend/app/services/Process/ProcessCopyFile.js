@@ -12,8 +12,10 @@ import { addDays, createNameDataFile } from "../helper/datainformation.js";
 
 
 export const ProcessCopyFile = async (FilesInput) => {
+    
     const device =  await Devices_Model.findById(FilesInput.iddevice)
     const dateFile = await createNameDataFile();
+    const fileNameDestination = `${dateFile.nameFile}_${uuid()}`;
     
     /* The line of code is calling the `downloadFile` function and passing in the `device.ipaddress`,
     `device.user`, `device.password`, `FilesInput.sourcefileRemote`, and
@@ -21,19 +23,19 @@ export const ProcessCopyFile = async (FilesInput) => {
     responsible for downloading a file from a remote server using SCP (Secure Copy Protocol). The
     function returns a response object that contains information about the success or failure of the
     download. */
-    const response = await downloadFile(device.ipaddress,device.user,device.password,FilesInput.sourcefileRemote, `./filesServers/${dateFile.nameFile}_${uuid()}`)
-
-    if(response.sucess){
+    const response = await downloadFile(device.ipaddress,device.user,device.password,FilesInput.sourcefileRemote, `./app/FilesServers/${fileNameDestination}`)
+    
+    if(response.success){
 
             let fileUpdate = {
                 lastdatatimebackup: dateFile.timeStampToday,
-                backupname: `${dateFile.nameFile}_${uuid()}`
+                backupname: `${fileNameDestination}`
             }
 
             let fileHistory= {
-                destinatefileRemote: `./filesServers/${dateFile.nameFile}_${uuid()}`,
+                destinatefileRemote: `./app/FilesServers/${fileNameDestination}`,
                 lastdatatimebackup: dateFile.timeStampToday,
-                backupname: `${dateFile.nameFile}_${uuid()}`,
+                backupname: `${fileNameDestination}`,
                 idfile: FilesInput._id,
                 successFile: response.success,
                 DateRemoveFile: addDays(7),
@@ -56,9 +58,9 @@ export const ProcessCopyFile = async (FilesInput) => {
     }else {
 
         let fileHistory= {
-            destinatefileRemote: `./filesServers/${dateFile.nameFile}_${uuid()}`,
+            destinatefileRemote: `./app/FilesServers/${fileNameDestination}`,
             lastdatatimebackup: dateFile.timeStampToday,
-            backupname: `${dateFile.nameFile}_${uuid()}`,
+            backupname: `${fileNameDestination}`,
             idfile: FilesInput._id,
             successFile: response.success,
             messageErr: response.mensage,

@@ -16,7 +16,7 @@ const ModalEdit = (props) =>{
           }
 
         try{
-            const response = await  axios.put(`http://192.168.18.145:5000/api/devices/${id}`, informationUpdate)
+            const response = await  axios.put(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/devices/${id}`, informationUpdate)
             if (response.status != 200) {
                 alert('Erro ao atualizar')
               }

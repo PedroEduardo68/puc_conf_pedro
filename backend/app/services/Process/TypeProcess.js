@@ -1,6 +1,7 @@
 import { Files_Model } from "../../model/Files.model.js";
 import { ProcessCopyFile } from "./ProcessCopyFile.js";
 
+
 export const TypeProcessGETAllFiles = async () =>{
     let successCount = 0;
     let errorCount = 0;
@@ -15,7 +16,8 @@ export const TypeProcessGETAllFiles = async () =>{
         /* The code is calling the `ProcessCopyFile` function with the `findAll[i]` parameter, which is an
         element from the `findAll` array. */
         const response = await ProcessCopyFile(findAll[i]);
-        if(response.status){
+
+        if(response.status === true){
             successCount +=1
         }else{
             errorCount +=1

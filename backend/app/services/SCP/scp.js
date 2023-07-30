@@ -2,7 +2,6 @@
 // with ES Module
 import { Client } from 'node-scp'
 
-
 /**
  * The `downloadFile` function is a JavaScript function that uses the SSH protocol to connect to a
  * remote server and download a file to a local directory.
@@ -25,9 +24,9 @@ export const downloadFile = async (ipaddress,user,password,remotefile,localfile)
     })
     await client.downloadFile(remotefile, localfile);
     client.close() 
-    return {sucess: true, mensage: 'sucessful'}
+    return {success: true, mensage: 'sucessful'}
   } catch (e) {
-    return {sucess: false, mensage: e}
+    return {success: false, mensage: e}
   }
 }
 

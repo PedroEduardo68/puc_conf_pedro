@@ -1,0 +1,33 @@
+version: '3.1'
+
+services:
+  zabbix-server:     # The main Zabbix Server Software Service
+    image: zabbix/zabbix-server-pgsql:ubuntu-6.4-latest
+    restart: always
+    environment:   # The Postgres database value variable
+      DB_SERVER_HOST: ${ZABBIX_DB_POST_IP}
+      POSTGRES_USER: ${ZABBIX_DB_POST_USER}
+      POSTGRES_PASSWORD: ${ZABBIX_DB_POST_PASSWORD}
+      POSTGRES_DB: ${ZABBIX_DB_NAME}
+      ZBX_HISTORYSTORAGETYPES: log,text #Zabbix configuration variables
+      ZBX_DEBUGLEVEL: 1
+      ZBX_HOUSEKEEPINGFREQUENCY: 1
+      ZBX_MAXHOUSEKEEPERDELETE: 5000
+    volumes:  # Volumes for scripts and related files you can add
+      - /usr/lib/zabbix/alertscripts:/usr/lib/zabbix/alertscripts
+
+
+  zabbix-web:    # The main Zabbix web UI or interface 
+    image: zabbix/zabbix-web-nginx-pgsql:ubuntu-6.4-latest
+    restart: always
+    environment:  # Postgre database variables
+      DB_SERVER_HOST: ${ZABBIX_DB_POST_IP}
+      POSTGRES_USER: ${ZABBIX_DB_POST_USER}
+      POSTGRES_PASSWORD: ${ZABBIX_DB_POST_PASSWORD}
+      POSTGRES_DB: ${ZABBIX_DB_NAME}
+      ZBX_SERVER_HOST: zabbix-server  # Zabbix related and Php variables
+      ZBX_POSTMAXSIZE: 64M
+      PHP_TZ: "America/Sao_Paulo"
+      ZBX_MAXEXECUTIONTIME: 500
+    ports:    # Port where Zabbix UI is available
+      - 8080:8080
