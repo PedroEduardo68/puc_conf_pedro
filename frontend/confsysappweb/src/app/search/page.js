@@ -67,10 +67,36 @@ component is first rendered. */
             const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/actions/`);
             if(response.status === 200){
                 alert("Backup realizado com sucesso!\nSucesso: " + response.data.success + "\nFalhou : " + response.data.faleid)
+                getInformationHistoryFile()
             }
         }catch {
             alert("Arquivo não encontrado")
         }
+    }
+
+
+    const GetFileNow = async (e) => {
+        e.preventDefault();
+
+
+
+        if(selectedOption === ''){
+            alert("Selecione Servidor")
+            return ;
+        }
+
+
+        try{
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/actions/${selectedOption.fileId}`);
+            if(response.status === 200){
+                alert("Backup realizado com sucesso!\nSucesso: " + response.data.success + "\nFalhou : " + response.data.faleid)
+                getInformationHistoryFile()
+            }
+        }catch {
+            alert("Arquivo Servidor Falhou")
+        }
+
+        
     }
 
 
@@ -127,6 +153,7 @@ component is first rendered. */
 
                 <button onSubmit className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Buscar </button>
                 <button onClick={(e) => downloadFileSearched(e)} className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Download </button>
+                <button onClick={(e) => GetFileNow(e)} className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Buscar Agora </button>
             </form>
         </div>
 

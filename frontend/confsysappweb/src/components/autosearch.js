@@ -3,10 +3,6 @@ import React, { useEffect, useRef, useState } from "react"
 const AutoSerch = ({options, value, onChange}) =>{
 
 
-    useEffect(() =>{
-        console.log(options)
-    },[])
-
     const [showOptions, setShowOptions] = useState(false)
     const [cursor, setCursor] = useState(-1)
     const ref = useRef();

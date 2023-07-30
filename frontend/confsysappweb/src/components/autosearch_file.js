@@ -4,9 +4,6 @@ import React, { useEffect, useRef, useState } from "react"
 const AutoSerchFile = ({options, value, onChange}) =>{
 
 
-    useEffect(() =>{
-        console.log(options)
-    },[])
 
     const [showOptions, setShowOptions] = useState(false)
     const [cursor, setCursor] = useState(-1)

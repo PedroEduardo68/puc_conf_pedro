@@ -34,27 +34,6 @@ changes. */
     },[props.objServerFiles.id])
 
     
-/**
- * The `removeFile` function is an asynchronous function that sends a DELETE request to a specific API
- * endpoint to delete a file, and then updates the table of devices if the request is successful.
- * @param e - The 'e' parameter is an event object that is passed to the function when the event (in
- * this case, a form submission) occurs. It is used to prevent the default behavior of the event, which
- * in this case is to submit the form and refresh the page.
- * @param _id - The _id parameter is the unique identifier of the file that you want to remove.
- */
-    const removeFile = async (e, _id) =>{
-        e.preventDefault();
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/Files/${_id}`)
-
-        if(response.status === 200) {
-            // updateTableDevices()
-        }else {
-        alert("Error ao Deletar")
-        }
-        getInformationsFiles(props.objServerFiles.id)
-
-    }
-
 
     return (
     <>
@@ -75,11 +54,15 @@ changes. */
                                 <>
                                 <hr />
                                 <p class="text-white ">
-                                    Caminho: <span> {row.sourcefileRemote} </span> <br />
-                                    Ultimo Backup: <span> {row.lastdatatimebackup != undefined ? convertTimestampTostringBr(row.lastdatatimebackup) : "Ainda Não Realizado" } </span> <br />
+                                    Horario do Erro: <span> {row.lastdatatimebackup != undefined ? convertTimestampTostringBr(row.lastdatatimebackup) : "Ainda Não Realizado" } </span> <br />
+                                    Name:
+                                    Caminho: 
+                                    IP Adress:
+                                    Mensagem: <br/>
+                                    <pre> {row.sourcefileRemote} </pre>
+                                    
                                     
                                 </p><br />
-                                <button className="bg-red-800 rounded-sm p-2 m-1" onClick={(e) => removeFile(e,row._id)}>Remover</button> 
                                 </>
                                 )
                             })

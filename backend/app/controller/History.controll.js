@@ -13,6 +13,7 @@ export const getAllHistoryFilesSucess = async (req,res) => {
         arrayReturned.push({
             ipaddress: ByIdDevices.ipaddress,
             id: allHistoryFiles[i]._id,
+            fileId: ByIdFiles._id,
             datetime: allHistoryFiles[i].lastdatatimebackup,
             name: ByIdDevices.nameserver,
             backupname: allHistoryFiles[i].backupname,

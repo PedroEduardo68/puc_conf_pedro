@@ -53,7 +53,6 @@ export default function page() {
   const updateTableDevices = async () => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/devices/`)
     setDataSource(response.data)
-    console.log(response.data)
   }
 
 
@@ -211,7 +210,6 @@ while registering" in Portuguese). */
         sourcefileRemote: e.target.path.value,
       }
       const response = await axios.post(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/Files/`,SumbitServerpath)
-      console.log(response)
 
       if(response.status === 200) {
         alert(`Cadastrado com Sucesso!`)
