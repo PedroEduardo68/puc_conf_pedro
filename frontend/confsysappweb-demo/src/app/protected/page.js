@@ -1,13 +1,6 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { verifyAuthCookie } from '../utils/auth';
+'use client'
 
 const page = () => {
-  const router = useRouter();
-
-
-      router.push('/login');
-
 
   return (
     <div>

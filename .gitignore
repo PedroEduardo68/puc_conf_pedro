@@ -1,2 +1,4 @@
 *node_modules
 *.env
+./frontend/confsysappweb-demo/.next
+./frontend/confsysappweb/.next
