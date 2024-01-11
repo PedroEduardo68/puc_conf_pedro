@@ -52,7 +52,8 @@ const Main = async () =>{
     application. It specifies that any requests with the path '/api/devices/' should be handled by the
     `DevicesRouter` router. This means that any routes defined in the `DevicesRouter` will be accessible
     under the '/api/devices/' path. */
-    app.use('/api/devices/', verifyToken, DevicesRouter)
+    //app.use('/api/devices/', verifyToken, DevicesRouter)
+    app.use('/api/devices/', DevicesRouter)
 
 
     // /* The code `app.use('/api/Files/', FilesRouter)` is setting up a middleware in the Express

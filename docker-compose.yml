@@ -16,7 +16,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSOWORD}
 
-      
+
   ### Mongo Express Server configuration  -> mode development
   mongodbongo-express:
     container_name: mongodbongo-express
@@ -30,10 +30,7 @@ services:
       ME_CONFIG_MONGODB_URL: ${MONGODB_URI_DOCKER}
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSOWORD}
-      
 
-
-      
 networks:
   network_mongo:
 
