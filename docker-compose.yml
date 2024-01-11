@@ -2,7 +2,6 @@ version: '3.1'
 
 services:
 
-
   ### mongodb-server => mode produtions
   mongodb-configsys:
     container_name: mongodb-configsys
@@ -30,6 +29,12 @@ services:
       ME_CONFIG_MONGODB_URL: ${MONGODB_URI_DOCKER}
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSOWORD}
+
+
+    ### Mongo Express Server configuration  -> mode development
+#  backend:
+#    container_name: backend-configsys
+
 
 networks:
   network_mongo:
