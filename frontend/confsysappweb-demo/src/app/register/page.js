@@ -6,6 +6,7 @@ import { convertTimestampTostringBr } from "../helper/convertTime";
 import ModalEdit from "@/components/Modal";
 import ModalFiles from "@/components/ModalFiles";
 import AutoSerch from "@/components/autosearch";
+import devicesData from "../../data-fixed/server.js"
 
 
 export default function page() {
@@ -51,11 +52,12 @@ export default function page() {
 
 
   const updateTableDevices = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/devices/`)
-    setDataSource(response.data)
+    console.log(devicesData);
+    setDataSource(devicesData)
   }
 
 
+  console.log('funciona porrta');
 /* The `useEffect` hook is used to perform side effects in a functional component. In this case, the
 `useEffect` hook is making an asynchronous HTTP GET request to the specified URL
 (`http://192.168.18.145:5000/api/devices/`) using the `axios` library. */
@@ -232,7 +234,7 @@ while registering" in Portuguese). */
       
       <main className="flex flex-wrap justify-between text-center align-middle pt-5 w-full mb-2">
           <div className="w-1/2 sm:w-full pr-1">
-          <h1 className="text-orange-500 font-bold text-xl text-center ">Registro de Servidor </h1>  
+          <h1 className="text-orange-500 font-bold text-xl text-center ">Registro de Servidor  porra</h1>  
             <form onSubmit={(e) => SumbitServer(e)} >
               <label name="nameserver"  > Name Servidor:
                 <input required id="nameserver" type="text" name="nameserver" maxLength={45} className="w-full px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="Nome do servidor" />
