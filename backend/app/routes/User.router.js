@@ -7,12 +7,12 @@ import { RegisterUser , LoginUser , RouterProtectUser, verifyToken} from '../con
 const UserRouter = Router()
 
 
-UserRouter.post('/register',verifyToken, RegisterUser)  
+UserRouter.post('/register',RegisterUser)  
 
 
 UserRouter.post('/login', LoginUser)  
 
 
-UserRouter.get('/RouterProtect', verifyToken, RouterProtectUser)  
+//UserRouter.get('/RouterProtect', , RouterProtectUser)  
 
 export default UserRouter;
