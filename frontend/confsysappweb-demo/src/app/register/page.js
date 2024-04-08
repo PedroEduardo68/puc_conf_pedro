@@ -234,7 +234,7 @@ while registering" in Portuguese). */
       
       <main className="flex flex-wrap justify-between text-center align-middle pt-5 w-full mb-2">
           <div className="w-1/2 sm:w-full pr-1">
-          <h1 className="text-orange-500 font-bold text-xl text-center ">Registro de Servidor  porra</h1>  
+          <h1 className="text-orange-500 font-bold text-xl text-center ">Registro de Servidor</h1>  
             <form onSubmit={(e) => SumbitServer(e)} >
               <label name="nameserver"  > Name Servidor:
                 <input required id="nameserver" type="text" name="nameserver" maxLength={45} className="w-full px-5 py-3 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" placeholder="Nome do servidor" />
@@ -357,3 +357,7 @@ while registering" in Portuguese). */
     </>
   )
 }
+
+
+
+

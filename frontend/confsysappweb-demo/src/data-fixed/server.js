@@ -76,3 +76,5 @@ const devicesData =
 
 
 export default devicesData;
+
+
