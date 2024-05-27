@@ -231,7 +231,7 @@ while registering" in Portuguese). */
 
 
   return (<>
-      
+
       <main className="flex flex-wrap justify-between text-center align-middle pt-5 w-full mb-2">
           <div className="w-1/2 sm:w-full pr-1">
           <h1 className="text-orange-500 font-bold text-xl text-center ">Registro de Servidor</h1>  
