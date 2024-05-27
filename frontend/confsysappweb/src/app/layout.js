@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import { usePathname } from 'next/navigation'
 //import { parseCookies } from '@/components/utils/cookies.js'
 import axios from 'axios'
+import { Router } from 'next/router'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -41,49 +42,46 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({ children }) {
   const pathname = usePathname()
+
+
   // // const { token } = parseCookies()
 
-  if(getAuthSession(token)){
-    return (
-      <html lang="pt-BR">
-        <body className={inter.className}>
-          <div className="max-w-6xl m-auto">
-            <MenuMain />
-            <p>Current pathname: {pathname}</p>
-              <ProtectedRoute>{children}</ProtectedRoute>
-            <Footer/>
-          </div>
-        </body>
-      </html>
-    )
-  }else {
-    <html lang="pt-BR">
-    <body className={inter.className}>
-        <div className="max-w-6xl m-auto">
-          <MenuMain />
-          <p>Current pathname: {pathname}</p>
-          { token ? 
-          <ProtectedRoute>{children}</ProtectedRoute>
-          :
-          <> {children}</>
-          }
-          <Footer/>
-        </div>
-      </body>
-    </html>
-  }
+  // if(getAuthSession(token)){
+  //   return (
+  //     <html lang="pt-BR">
+  //       <body className={inter.className}>
+  //         <div className="max-w-6xl m-auto">
+  //           <MenuMain />
+  //           <p>Current pathname: {pathname}</p>
+  //             <ProtectedRoute>{children}</ProtectedRoute>
+  //           <Footer/>
+  //         </div>
+  //       </body>
+  //     </html>
+  //   )
+  // }else {
+  //   <html lang="pt-BR">
+  //   <body className={inter.className}>
+  //       <div className="max-w-6xl m-auto">
+  //         <MenuMain />
+  //         <p>Current pathname: {pathname}</p>
+  //         { token ? 
+  //         <ProtectedRoute>{children}</ProtectedRoute>
+  //         :
+  //         <> {children}</>
+  //         }
+  //         <Footer/>
+  //       </div>
+  //     </body>
+  //   </html>
+  // }
 
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
         <div className="max-w-6xl m-auto">
           <MenuMain />
-          <p>Current pathname: {pathname}</p>
-          { token ? 
-          <ProtectedRoute>{children}</ProtectedRoute>
-          :
-          <> {children}</>
-          }
+          <>{children}</>
           <Footer/>
         </div>
       </body>
