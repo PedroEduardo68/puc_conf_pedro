@@ -11,7 +11,6 @@ export const getAllHistoryFilesSucess = async (req,res) => {
     for(let i = 0; i < allHistoryFiles.length; i++) {
         const ByIdFiles = await Files_Model.findById(allHistoryFiles[i].idfile)
 
-        try{
             const ByIdDevices = await Devices_Model.findById(ByIdFiles.iddevice)
             arrayReturned.push({
                 ipaddress: ByIdDevices.ipaddress,
@@ -22,9 +21,6 @@ export const getAllHistoryFilesSucess = async (req,res) => {
                 backupname: allHistoryFiles[i].backupname,
             })
             res.status(200).send(arrayReturned)
-        }catch(e){
-            res.status(404)
-        }
     }
 
 }

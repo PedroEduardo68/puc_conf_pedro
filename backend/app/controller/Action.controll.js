@@ -37,7 +37,6 @@ export const backupnowalldevices = async (req,res) => {
 export const backupnowfilesByID = async (req,res) => {
     try{
         const response = await TypeProcessGETByIDFiles(req.params.id);
-        res.status(200).send(response)
     }catch{
         res.status(500).send({message: "Internal server error"})
     }
