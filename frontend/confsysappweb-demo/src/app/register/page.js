@@ -284,9 +284,6 @@ while registering" in Portuguese). */
             <h1 className="text-orange-500 font-bold text-sm text-center">Filtro de Pesquisa Servidor </h1>
           </div>
 
-          
-
-
           {isMobile ? (
             <>
             {dataSource.length !== 0 ?
@@ -294,8 +291,6 @@ while registering" in Portuguese). */
                     return (
                     <div class=" rounded-md m-auto border-orange-400 border-2 shadow-lg md:invisible md:block  lg:block lg:invisible xl:block xl:invisible  2xl:block 2xl:invisible">
                     <div class="px-6 py-4">
-                    
-                      
                       <p class="text-white ">
                       Nome do servidor: <span> {row.nameserver} </span> <br />
                       Endereço IP: <span> {row.ipaddress} </span> <br />
@@ -338,19 +333,15 @@ while registering" in Portuguese). */
                           <button className="bg-red-800 rounded-sm p-2 m-1" onClick={(e) => removeDevices(e,row._id)}>Remover</button>
                         </td>
                       </tr>
-                  ) 
+                  )
               }):  <tr><td> Sem dados!  Constate o Administrador</td></tr>}
-              
-              </tbody>         
+
+              </tbody>
             </table>
           </div>
-            
+
           )}
-          
 
-          
-
-          
           <ModalEdit hiddenModal={hiddenModal} editDevice={editDevice} updateTableDevices={updateTableDevices} informationObj={objServerEdit}/>
           <ModalFiles hiddenModalfiles={hiddenModalfiles} objServerFiles={objServerFiles} modalFile={modalFile} />
       </main>

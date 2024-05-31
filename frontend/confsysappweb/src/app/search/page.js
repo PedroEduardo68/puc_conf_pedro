@@ -114,8 +114,7 @@ component is first rendered. */
             const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/Files/download/${selectedOption.backupname}`, {
                 responseType: 'blob',
             });
-            
-            
+
             // Create a temporary URL and trigger a download
            /* The code block you provided is responsible for downloading a file. */
             const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -125,7 +124,7 @@ component is first rendered. */
             link.setAttribute('download', `${selectedOption.backupname}`); // Change the file name 
             document.body.appendChild(link);
             link.click();
-    
+
             /* The `window.URL.revokeObjectURL(url)` function is used to release the resources associated
             with a temporary URL created using the `window.URL.createObjectURL()` method. */
             window.URL.revokeObjectURL(url);
@@ -134,7 +133,7 @@ component is first rendered. */
             alert("Arquivo não encontrado")
         }
 
-    
+
     }
 
 

@@ -60,20 +60,20 @@ const Main = async () =>{
     // application. It specifies that any requests with the path '/api/Files/' should be handled by the
     // `FilesRouter` router. This means that any routes defined in the `FilesRouter` will be accessible
     // under the '/api/Files/' path. */
-    app.use('/api/Files/', verifyToken, FilesRouter)
+    app.use('/api/Files/', FilesRouter)
 
     /* The code `app.use('/api/actions/', ActionsRouter)` is setting up a middleware in the Express
     application. It specifies that any requests with the path '/api/actions/' should be handled by the
     `ActionsRouter` router. This means that any routes defined in the `ActionsRouter` will be accessible
     under the '/api/actions/' path. */
-    app.use('/api/actions/', verifyToken, ActionsRouter)
+    app.use('/api/actions/',  ActionsRouter)
 
 
     /* `app.use('/api/history/', HistoryRouter)` is setting up a middleware in the Express application.
     It specifies that any requests with the path '/api/history/' should be handled by the
     `HistoryRouter` router. This means that any routes defined in the `HistoryRouter` will be
     accessible under the '/api/history/' path. */
-    app.use('/api/history/', verifyToken, HistoryRouter)
+    app.use('/api/history/', HistoryRouter)
 
 
     app.use('/api/user/', UserRouter)

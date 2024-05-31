@@ -7,7 +7,7 @@ import AutoSerchFile from "@/components/autosearch_file.js";
 
 export default function page() {
     const [fileContent, setfileContent] = useState(`
-    
+
     VirtualHost *:80>
     DocumentRoot /var/www/example
     <Directory /var/www/example>
