@@ -15,8 +15,9 @@ export const TypeProcessGETAllFiles = async () =>{
     for (let i = 0; i < findAll.length; i++){
         /* The code is calling the `ProcessCopyFile` function with the `findAll[i]` parameter, which is an
         element from the `findAll` array. */
+        //console.log(findAll[i])
         const response = await ProcessCopyFile(findAll[i]);
-
+        console.log(findAll[i])
         if(response.status === true){
             successCount +=1
         }else{

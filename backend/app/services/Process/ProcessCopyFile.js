@@ -16,7 +16,7 @@ export const ProcessCopyFile = async (FilesInput) => {
     const device =  await Devices_Model.findById(FilesInput.iddevice)
     const dateFile = await createNameDataFile();
     const fileNameDestination = `${dateFile.nameFile}_${uuid()}`;
-    
+
     /* The line of code is calling the `downloadFile` function and passing in the `device.ipaddress`,
     `device.user`, `device.password`, `FilesInput.sourcefileRemote`, and
     `./filesServers/${dateFile.nameFile}_${uuid()}` as arguments. The `downloadFile` function is
@@ -24,7 +24,7 @@ export const ProcessCopyFile = async (FilesInput) => {
     function returns a response object that contains information about the success or failure of the
     download. */
     const response = await downloadFile(device.ipaddress,device.user,device.password,FilesInput.sourcefileRemote, `./app/FilesServers/${fileNameDestination}`)
-    
+    console.log(response)
     if(response.success){
 
             let fileUpdate = {
