@@ -14,6 +14,8 @@ import { dirname, join } from 'path';
 
 import bodyParser from 'body-parser';
 import { verifyToken } from './app/controller/User.controll.js';
+import { TypeProcessGETAllFiles } from './app/services/Process/TypeProcess.js';
+import { setcleanAllHistoryFilesFalied } from './app/controller/History.controll.js';
 
 
 const Main = async () =>{
@@ -41,12 +43,12 @@ const Main = async () =>{
     console.log(`<> Loading config envirement ${config.url_mongodb}  <>`)
 
 
- 
+
    /* The code `mongoose.connect(`${config.url_mongodb}`,{ useNewUrlParser: true, useUnifiedTopology:
    true }).catch(`<> Falied connected <>`)` is establishing a connection to a MongoDB database using
    the Mongoose library. */
     mongoose.connect(`${config.url_mongodb}`,{ useNewUrlParser: true, useUnifiedTopology: true }).catch(`<> Falied connected <>`)
-    
+
 
     /* The code `app.use('/api/devices/', DevicesRouter)` is setting up a middleware in the Express
     application. It specifies that any requests with the path '/api/devices/' should be handled by the
@@ -78,8 +80,8 @@ const Main = async () =>{
 
     app.use('/api/user/', UserRouter)
 
-    
-
+  
+    TypeProcessGETAllFiles();
     // Define a route default 
     app.get('/', (req, res) => {
         res.send('<h1> Hello, API is working! <h1>');

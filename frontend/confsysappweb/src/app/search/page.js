@@ -4,11 +4,13 @@
 import axios from "axios";
 import { useEffect,useState } from "react";
 import AutoSerchFile from "@/components/autosearch_file.js";
+import ModalFilesErr from "@/components/ModalFilesErr";
 
 export default function page() {
     const [fileContent, setfileContent] = useState('')
     const [dataSource, setDataSource] = useState([])
     const [selectedOption, setSelectedOption] = useState('')
+    const [hiddenModalErro, sethiddenModalErro] = useState('hidden');
 
 /* The `useEffect` hook is used in React to perform side effects in functional components. In this
 case, the `useEffect` hook is used to call the `getInformationHistoryFile` function when the
@@ -21,15 +23,49 @@ component is first rendered. */
  * The function `getInformationHistoryFile` makes an asynchronous request to retrieve information from
  * a history file and sets the retrieved data as the data source.
  */
-    const getInformationHistoryFile = async () => {
-        try{
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/history/`);
-            setDataSource(response.data)
-        }catch {
-            alert("Arquivo não encontrado")
-        }
+const getInformationHistoryFile = async () => {
+    try{
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/history/`);
+        console.log(response.date)
+        setDataSource(response.data)
+    }catch {
+        alert("Arquivo não encontrado")
+    }
+}
+
+
+
+
+
+
+
+
+
+
+const handlecCloseErr = (e)=>{
+    e.preventDefault();
+    if (hiddenModalErro === 'hidden'){
+        sethiddenModalErro('');
+    }else{
+        sethiddenModalErro('hidden');
     }
 
+  }
+
+
+
+const handlelistError = (e)=>{
+    e.preventDefault();
+
+
+    if (hiddenModalErro === 'hidden'){
+        sethiddenModalErro('');
+    }else{
+        sethiddenModalErro('hidden');
+    }
+      
+
+  }
 
 
 /**
@@ -96,7 +132,6 @@ component is first rendered. */
             alert("Arquivo Servidor Falhou")
         }
 
-        
     }
 
 
@@ -148,28 +183,40 @@ component is first rendered. */
                            value={selectedOption}
                            onChange={setSelectedOption}
                 />
-                } 
-
+                }
+                {dataSource.length > 0 && 
                 <button onSubmit className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Buscar </button>
+                }
+                {dataSource.length > 0 && 
                 <button onClick={(e) => downloadFileSearched(e)} className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Download </button>
+                }
+                {dataSource.length > 0 && 
                 <button onClick={(e) => GetFileNow(e)} className="bottom-2 text-white p-2 bg-green-800 m-3 rounded-md"> Buscar Agora </button>
-            </form>
+                }
+
+                {dataSource.length > 0 && 
+                <button onAbort className="bg-red-400 rounded-sm p-2 m-1"> Limpar </button>
+                }
+
+                <div></div>
+                </form>
         </div>
 
         <div className="w-1/2 sm:w-full">
             <h1 className="text-orange-500 font-bold text-xl text-center ">Controle </h1>  
             <button  className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => backupAllFiles(e)}> Buscar todos os Arquivos </button><br/>
             <hr className="w-10/12 mx-auto" />
-            <button onAbort className="bg-orange-400 rounded-sm p-2 m-1"> Limpar </button>
-            <button onAbort className="bg-orange-400 rounded-sm p-2 m-1"> Error Semana </button>
+            <button onAbort className="bg-orange-400 rounded-sm p-2 m-1" onClick={(e) => handlelistError(e)}   > Error Semana </button>
         </div>
+
+        <ModalFilesErr hiddenModalErro={hiddenModalErro}  handlecCloseErr={handlecCloseErr}/>
 
 
         <div className="w-full">
             <h1 className="text-orange-500 font-bold text-xl  ">Conteudo do Arquivos </h1>  
             <pre className=" text-left border-2 bg-gray-800 rounded-md overflow-auto scroll-mx-20"><br />{fileContent}<br /></pre>
 
-            
+
         </div>
          
       </main>
