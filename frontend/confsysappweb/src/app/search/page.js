@@ -63,6 +63,7 @@ const handlelistError = (e)=>{
     }else{
         sethiddenModalErro('hidden');
     }
+s
       
 
   }
@@ -84,6 +85,8 @@ const handlelistError = (e)=>{
         }catch {
             alert("Arquivo não encontrado")
         }
+
+        getInformationHistoryFile()
     }
 
 
@@ -108,6 +111,8 @@ const handlelistError = (e)=>{
         }catch {
             alert("Arquivo não encontrado")
         }
+
+        getInformationHistoryFile()
     }
 
 
@@ -131,6 +136,8 @@ const handlelistError = (e)=>{
         }catch {
             alert("Arquivo Servidor Falhou")
         }
+
+        getInformationHistoryFile()
 
     }
 

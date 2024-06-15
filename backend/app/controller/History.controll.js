@@ -34,7 +34,6 @@ export const getAllHistoryFilesFalied  = async (req,res) => {
     const arrayReturned = []
     try{
         const allHistoryFiles = await HistoryFiles_Model.find({ successFile: false })
-            console.log(allHistoryFiles)
             for(let i = 0; i < allHistoryFiles.length; i++) {
                 const ByIdFiles = await Files_Model.findById(allHistoryFiles[i].idfile)
 
@@ -64,7 +63,6 @@ export const getAllHistoryFilesFalied  = async (req,res) => {
 export const setcleanAllHistoryFilesFalied  = async (req,res) => {
     try{
         const deleteDevice = await HistoryFiles_Model.deleteMany({successFile: false})
-        console.log(deleteDevice.deletedCount)
         if(deleteDevice.deletedCount > 0) {
             res.status(200).json(deleteDevice.deletedCount)
         }

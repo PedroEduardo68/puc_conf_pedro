@@ -10,7 +10,6 @@ const ModalFilesErr = (props) =>{
         try{
             const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/history/falied`);
             setDataSourceFaliedList(response.data)
-            console.log(response.data)
         }catch {
             alert("Arquivo não encontrado")
         }
@@ -20,12 +19,12 @@ const ModalFilesErr = (props) =>{
 
 
     const handlecCleanErr = async () => {
-        // try{
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/history/falied/clean`);
-            console.log(response.data)
-        // }catch {
-        //     alert("Arquivo não encontrado")
-        // }
+        try{
+            await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/history/falied/clean`);
+            getInformationHistoryFilefalied()
+        }catch {
+            alert("Arquivo não encontrado")
+        }
     }
 
 
@@ -66,11 +65,10 @@ const ModalFilesErr = (props) =>{
                             })
                             : <>Sem dados!  Constate o Administrador</>
                         }
-
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </>
     );
 }
