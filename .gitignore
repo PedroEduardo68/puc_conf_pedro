@@ -1,6 +1,7 @@
 frontend/confsysappweb-demo/node_modules/
 frontend/confsysappweb/node_modules/
 backend/node_modules/
+backend/app/FilesServers
 *.env
 ./frontend/confsysappweb/.next/
 ./frontend/confsysappweb-demo/.next/
