@@ -3,28 +3,34 @@ import { ProcessCopyFile } from "./ProcessCopyFile.js";
 
 
 export const TypeProcessGETAllFiles = async () =>{
-    let successCount = 0;
-    let errorCount = 0;
-    let errorFiles = [{}];
 
-    /* `const findAll =  await Files_Model.find({})` is querying the database to find all documents in
-    the "Files" collection. It uses the `find()` method of the `Files_Model` to retrieve all
-    documents that match the specified query `{}` (an empty object). The result is stored in the
-    `findAll` variable. */
-    const findAll =  await Files_Model.find({}) 
-    for (let i = 0; i < findAll.length; i++){
-        /* The code is calling the `ProcessCopyFile` function with the `findAll[i]` parameter, which is an
-        element from the `findAll` array. */
+    try{
 
-        const response = await ProcessCopyFile(findAll[i]);
-        if(response.status === true){
-            successCount +=1
-        }else{
-            errorCount +=1
-            errorFiles.push(response.mensage)
+        let successCount = 0;
+        let errorCount = 0;
+        let errorFiles = [{}];
+
+        /* `const findAll =  await Files_Model.find({})` is querying the database to find all documents in
+        the "Files" collection. It uses the `find()` method of the `Files_Model` to retrieve all
+        documents that match the specified query `{}` (an empty object). The result is stored in the
+        `findAll` variable. */
+        const findAll =  await Files_Model.find({}) 
+        for (let i = 0; i < findAll.length; i++){
+            /* The code is calling the `ProcessCopyFile` function with the `findAll[i]` parameter, which is an
+            element from the `findAll` array. */
+
+            const response = await ProcessCopyFile(findAll[i]);
+            if(response.status === true){
+                successCount +=1
+            }else{
+                errorCount +=1
+                errorFiles.push(response.mensage)
+            }
         }
+        return {success: successCount, faleid: errorCount, information : errorFiles}
+    }catch {
+        console.log('without files')
     }
-    return {success: successCount, faleid: errorCount, information : errorFiles}
 }
 
 

@@ -5,6 +5,7 @@ import { getViewFilesById } from "../services/ReadFiles/TypeRead.js";
 
 import path from 'path';
 import fs from 'fs';
+import { setcleanAllHistoryforIDfile } from "./History.controll.js";
 
 
 
@@ -96,6 +97,7 @@ export const createFiles = async (req,res) => {
 export const deleteFiles = async (req,res) => {
     let fileId = req.params.id;
     const deletefile= await Files_Model.deleteOne({_id: fileId})
+    setcleanAllHistoryforIDfile(fileId);
 
     if(deletefile.deletedCount > 0) {
         res.status(200).json(deletefile.deletedCount)
@@ -152,4 +154,16 @@ export const DownloadFileGet = async (req, res) => {
 }
 
 
+
+
+
+export const deleteFilesforDeviceID = async (deviceID) => {
+    try{
+        let fileID = await Files_Model.find({ iddevice: deviceID })
+        await setcleanAllHistoryforIDfile(fileID[0].id);
+        await Files_Model.deleteMany({_id: fileID[0].id})
+    }catch{
+        console.log('dont remove file')
+    }
+}
 

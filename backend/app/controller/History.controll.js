@@ -76,3 +76,24 @@ export const setcleanAllHistoryFilesFalied  = async (req,res) => {
 }
 
 
+export const setcleanAllHistoryforIDfile  = async (idFile) => {
+    try{
+        await HistoryFiles_Model.deleteMany({idfile: idFile})
+    }catch{
+        console.log('Erro ao deletar')
+    }
+}
+
+
+
+
+export const setcleanAllHistoryforIDfileRes  = async (req,res) => {
+    let idFile2 = req.params.id;
+    try{
+        await HistoryFiles_Model.deleteMany({idfile: idFile2})
+        res.status(200).send({"ERROR":"Não Deletado"})
+
+    }catch(err){
+        res.status(404).send({"ERROR":"Não Deletado"})
+    }
+}

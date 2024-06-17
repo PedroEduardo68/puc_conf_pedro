@@ -1,4 +1,5 @@
 import { Devices_Model } from '../model/Devices.model.js'
+import { deleteFilesforDeviceID } from './Files.controll.js'
 
 
 
@@ -124,15 +125,20 @@ export const updateDevice = async (req,res) => {
  */
 
 export const deleteDevice = async (req,res) => {
-    let deviceId = req.params.id;
-    const deleteDevice = await Devices_Model.deleteOne({_id: deviceId})
-
-    if(deleteDevice.deletedCount > 0) {
-        res.status(200).json(deleteDevice.deletedCount)
-    }
-    else {
+    try{
+        let deviceId = req.params.id;
+        const deleteDevice = await Devices_Model.deleteOne({_id: deviceId})
+        deleteFilesforDeviceID(deviceId)
+        if(deleteDevice.deletedCount > 0) {
+            res.status(200).json(deleteDevice.deletedCount)
+        }
+        else {
+            res.status(404).send({"ERROR":"Dispositivo não encontrado!"})
+        }
+    }catch{
         res.status(404).send({"ERROR":"Dispositivo não encontrado!"})
     }
+
 }
 
 

@@ -26,7 +26,7 @@ component is first rendered. */
 const getInformationHistoryFile = async () => {
     try{
         const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/history/`);
-        console.log(response.date)
+        console.log(response.data)
         setDataSource(response.data)
     }catch {
         alert("Arquivo não encontrado")
@@ -63,8 +63,6 @@ const handlelistError = (e)=>{
     }else{
         sethiddenModalErro('hidden');
     }
-s
-      
 
   }
 
@@ -90,6 +88,8 @@ s
     }
 
 
+
+    
 
 /**
  * The function `backupAllFiles` is an asynchronous function that sends a GET request to a specified
@@ -141,6 +141,32 @@ s
 
     }
 
+
+    const handlecleanAllByIDFile = async (e) =>{
+        e.preventDefault();
+
+
+
+        if(selectedOption === ''){
+            alert("Selecione Servidor")
+            return ;
+        }
+
+
+
+        try{
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_URL_DEFAULT}/api/history/findandremovebyid/${selectedOption.fileId}`);
+            if(response.status === 200){
+                alert("Deletados com sucesso!")
+            }
+        }catch {
+            alert("Não deletado")
+        }
+
+        getInformationHistoryFile()
+
+
+    }
 
 
 
@@ -202,7 +228,7 @@ s
                 }
 
                 {dataSource.length > 0 && 
-                <button onAbort className="bg-red-400 rounded-sm p-2 m-1"> Limpar </button>
+                <button onClick={(e) => handlecleanAllByIDFile(e)} className="bg-red-400 rounded-sm p-2 m-1"> Limpar </button>
                 }
 
                 <div></div>

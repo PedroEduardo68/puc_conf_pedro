@@ -80,8 +80,12 @@ const Main = async () =>{
 
     app.use('/api/user/', UserRouter)
 
-  
-    TypeProcessGETAllFiles();
+    try{
+        TypeProcessGETAllFiles();
+    }catch {
+        console.log('without devices')
+    }
+
     // Define a route default 
     app.get('/', (req, res) => {
         res.send('<h1> Hello, API is working! <h1>');
