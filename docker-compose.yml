@@ -3,8 +3,8 @@ version: '3.1'
 services:
 
   ### mongodb-server => mode produtions
-  mongodb-configsys:
-    container_name: mongodb-configsys
+  mongodbconfigsys:
+    container_name: mongodbconfigsys
     image: mongo:latest
     restart: always
     ports:
@@ -12,52 +12,87 @@ services:
     volumes:
       - mongodb_data_container:/data/db
     networks:
-      - network_confsys
+      - mongodb_network
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSOWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER_ENV}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSOWORD_ENV}
 
 
   ### Mongo Express Server configuration  -> mode development
-  mongodbongo-express:
-    container_name: mongodbongo-express
+  mongodbongoexpress:
+    container_name: mongodbongoexpress
     depends_on:
-      - mongodb-configsys
+      - mongodbconfigsys
     image: mongo-express:latest
     restart: always
     ports:
       - 8081:8081
+    networks:
+      - mongodb_network
     environment:
-      ME_CONFIG_MONGODB_URL: ${MONGODB_URI_DOCKER}
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSOWORD}
+      ME_CONFIG_MONGODB_URL: ${MONGODB_URI_DOCKER_ENV}
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER_ENV}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSOWORD_ENV}
+      ME_CONFIG_MONGODB_SERVER: ${ME_CONFIG_MONGODB_SERVER_ENV}
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: ${ME_CONFIG_MONGODB_ENABLE_ADMIN_ENV}
+      ME_CONFIG_MONGODB_AUTH_USERNAME: ${ME_CONFIG_MONGODB_AUTH_USERNAME_ENV}
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: ${ME_CONFIG_MONGODB_AUTH_PASSWORD_ENV}
 
 
-  # ### Mongo Express Server configuration  -> mode development
-  # backend:
-  #   container_name: backend-configsys
+  ### Mongo Express Server configuration  -> mode development
+  backendconfisys:
+    container_name: backendconfisys
+    depends_on:
+      - mongodbconfigsys
+    build:
+        context: ./backend/
+        dockerfile: Dockerfile
+    ports:
+      - 5000:${PORT_WEB_BACKEND_ENV}
+    environment:
+      MONGODB_URI: ${MONGODB_DEVICES_BACKEND}
+      MONGODB_DEVICES: ${MONGODB_DEVICES_BACKEND}
+      MONGODB_DB: ${MONGODB_DB_BACKEND}
+      PORT_WEB_BACKEND: ${PORT_WEB_BACKEND_ENV}
+      JWT_SECRET_BACKEND: ${JWT_SECRET_BACKEND_ENV}
+    networks:
+      - mongodb_network
+    restart: always
+
+
+  frontendconfigsysdev:
+    container_name: frontendconfigsysdev
+    depends_on:
+      - backendconfisys
+    ports:
+      - 3000:${PORT_WEB_ENV}
+    build:
+        context: ./frontend/confsysappweb
+        dockerfile: Dockerfile_Dev
+    networks:
+      - mongodb_network
+    volumes:
+      - frontend_data_prod:/build/
+    environment:
+      NEXT_PUBLIC_URL_DEFAULT: ${NEXT_PUBLIC_URL_DEFAULT_ENV}
+    restart: always
+
+
+  # frontendconfigsyspro:
+  #   container_name: frontendconfigpro
   #   depends_on:
-  #     - mongodb-configsys
-  #   environment:
-  #     MONGODB_URI: ${NEXT_PUBLIC_URL_DEFAULT_BACKEND}
-  #     MONGODB_DEVICES: ${MONGODB_DEVICES_BACKEND}
-  #     MONGODB_DB: ${MONGODB_DB_BACKEND}
-  #     PORT_WEB_BACKEND: ${PORT_WEB_BACKEND_ENV}
-  #     JWT_SECRET_BACKEND: ${JWT_SECRET_BACKEND_ENV}
+  #     - frontendconfigsysdev
+  #   build:
+  #       context: ./frontend/confsysappweb/prod
+  #       dockerfile: Dockerfile_Pro
   #   networks:
-  #     - network_confsys
-  #   restart: always
-
-
-  # frontend:
-  #   container_name: frontend-configsys
-  #   depends_on:
-  #     - backend
-  #   networks:
-  #     - network_confsys
+  #     - mongodb_network
+  #   volumes:
+  #     - frontend_data_prod:/app
   #   environment:
   #     NEXT_PUBLIC_URL_DEFAULT: ${NEXT_PUBLIC_URL_DEFAULT_ENV}
   #   restart: always
+
 
 
 #  demo:
@@ -71,9 +106,11 @@ services:
 
 
 networks:
-  network_confsys:
+  mongodb_network:
+    driver: bridge
 
 volumes:
+  frontend_data_prod:
   mongodb_data_container:
   backend_log_container:
   backend_files_container:

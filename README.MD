@@ -69,9 +69,27 @@ Environment Variables
 Create a .env file in the root directory and set the necessary environment variables:
 
 ```bash
-MONGO_INITDB_ROOT_USERNAME=yourUsername
-MONGO_INITDB_ROOT_PASSWORD=yourPassword
-MONGO_EXPRESS_PORT=8081
+
+## Virutal .env frotend
+NEXT_PUBLIC_URL_DEFAULT_ENV="http://localhost:5000"
+PORT_WEB_ENV= 3000
+
+## Virtual .env Blackend
+MONGODB_DEVICES_BACKEND = mongodb://testedbuser:exempleexplempel@mongodbconfigsys:27017/
+MONGODB_DB_BACKEND = confisysdb
+PORT_WEB_BACKEND_ENV = 5000
+JWT_SECRET_BACKEND_ENV = testetestetet
+
+
+
+## Virtual .env DB
+MONGODB_USER_ENV = testedbuser
+MONGODB_PASSOWORD_ENV = exempleexplempel
+MONGODB_URI_DOCKER_ENV = mongodb://testedbuser:exempleexplempel@mongodbconfigsys:27017/
+ME_CONFIG_MONGODB_SERVER_ENV = mongodbconfigsys
+ME_CONFIG_MONGODB_ENABLE_ADMIN_ENV = true
+ME_CONFIG_MONGODB_AUTH_USERNAME_ENV = admin
+ME_CONFIG_MONGODB_AUTH_PASSWORD_ENV = pass
 ```
 
 Build and Run with Docker Compose
