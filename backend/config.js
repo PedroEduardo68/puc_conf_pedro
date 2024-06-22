@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
 //upload confg env file default
-dotenv.config({path: '../.env'});
+dotenv.config({path: '.env'});
 
 
 const config = {

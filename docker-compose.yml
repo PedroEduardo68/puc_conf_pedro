@@ -11,6 +11,8 @@ services:
       - 27017:27017
     volumes:
       - mongodb_data_container:/data/db
+    networks:
+      - network_confsys
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSOWORD}
@@ -31,13 +33,45 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSOWORD}
 
 
-    ### Mongo Express Server configuration  -> mode development
-#  backend:
-#    container_name: backend-configsys
+  # ### Mongo Express Server configuration  -> mode development
+  # backend:
+  #   container_name: backend-configsys
+  #   depends_on:
+  #     - mongodb-configsys
+  #   environment:
+  #     MONGODB_URI: ${NEXT_PUBLIC_URL_DEFAULT_BACKEND}
+  #     MONGODB_DEVICES: ${MONGODB_DEVICES_BACKEND}
+  #     MONGODB_DB: ${MONGODB_DB_BACKEND}
+  #     PORT_WEB_BACKEND: ${PORT_WEB_BACKEND_ENV}
+  #     JWT_SECRET_BACKEND: ${JWT_SECRET_BACKEND_ENV}
+  #   networks:
+  #     - network_confsys
+  #   restart: always
+
+
+  # frontend:
+  #   container_name: frontend-configsys
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - network_confsys
+  #   environment:
+  #     NEXT_PUBLIC_URL_DEFAULT: ${NEXT_PUBLIC_URL_DEFAULT_ENV}
+  #   restart: always
+
+
+#  demo:
+#    container_name: frontend-configsys
+#    networks:
+#       - network_confsys
+#    environment:
+#      NEXT_PUBLIC_URL_DEFAULT: ${NEXT_PUBLIC_URL_DEFAULT_ENV}
+#    restart: always
+
 
 
 networks:
-  network_mongo:
+  network_confsys:
 
 volumes:
   mongodb_data_container:
